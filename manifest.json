@@ -1,0 +1,24 @@
+{
+  "generated_at": "2026-09-10T23:21:52+00:00",
+  "root": "html",
+  "site_title": null,
+  "count": 2,
+  "files": [
+    {
+      "path": "html/welcome.html",
+      "name": "welcome.html",
+      "dir": "",
+      "title": "Welcome",
+      "modified": "2026-09-10T08:16:36Z",
+      "size": 1017
+    },
+    {
+      "path": "html/examples/table-demo.html",
+      "name": "table-demo.html",
+      "dir": "examples",
+      "title": "Table demo",
+      "modified": "2026-09-10T08:16:36Z",
+      "size": 1362
+    }
+  ]
+}
