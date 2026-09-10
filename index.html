@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>HTML Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* ---------- tokens: light (default) ---------- */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --surface-2: #eceef2;
+  --text: #1b1f24;
+  --text-2: #5c6673;
+  --text-3: #8a94a0;
+  --border: #e1e4e9;
+  --border-2: #cfd4db;
+  --accent: #3b5a86;
+  --accent-soft: #e7edf5;
+  --accent-text: #2c4a74;
+  --danger: #a33a3a;
+  --frame-bg: #ffffff;
+  --shadow: 0 1px 2px rgba(20, 30, 45, .06), 0 4px 16px rgba(20, 30, 45, .06);
+  --sidebar-w: 288px;
+  --font-ui: "IBM Plex Sans", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+/* ---------- tokens: dark (system) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181c;
+    --surface: #1c2026;
+    --surface-2: #242930;
+    --text: #e4e7eb;
+    --text-2: #9aa4b0;
+    --text-3: #6f7985;
+    --border: #2b3139;
+    --border-2: #3a414b;
+    --accent: #8db0dc;
+    --accent-soft: #243241;
+    --accent-text: #a9c4e6;
+    --danger: #e08585;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 16px rgba(0, 0, 0, .3);
+  }
+}
+/* ---------- tokens: dark (explicit) ---------- */
+:root[data-theme="dark"] {
+  --bg: #15181c;
+  --surface: #1c2026;
+  --surface-2: #242930;
+  --text: #e4e7eb;
+  --text-2: #9aa4b0;
+  --text-3: #6f7985;
+  --border: #2b3139;
+  --border-2: #3a414b;
+  --accent: #8db0dc;
+  --accent-soft: #243241;
+  --accent-text: #a9c4e6;
+  --danger: #e08585;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 16px rgba(0, 0, 0, .3);
+}
+
+/* ---------- base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.5 var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+button, input, select, a { font: inherit; color: inherit; }
+button { cursor: pointer; }
+code { font-family: var(--font-mono); font-size: .92em; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+svg.icon { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- shell ---------- */
+.app {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  height: 100%;
+  height: 100dvh;
+}
+
+/* ---------- sidebar ---------- */
+.sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+}
+.side-head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.brand-mark {
+  width: 22px; height: 22px; flex: none;
+  border-radius: 5px;
+  background: var(--accent);
+  color: var(--surface);
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+}
+.brand h1 {
+  margin: 0;
+  font-size: 15px; font-weight: 600; letter-spacing: -.01em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.search { position: relative; }
+.search svg.icon { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--text-3); pointer-events: none; }
+.search input {
+  width: 100%;
+  padding: 7px 10px 7px 30px;
+  border: 1px solid var(--border-2);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+}
+.search input::placeholder { color: var(--text-3); }
+.search input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px var(--accent-soft); }
+.side-tools { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.side-tools label { display: flex; align-items: center; gap: 6px; color: var(--text-2); font-size: 12px; }
+.side-tools select {
+  padding: 3px 6px;
+  border: 1px solid var(--border-2); border-radius: 5px;
+  background: var(--surface); color: var(--text);
+  font-size: 12px;
+}
+.side-tools .kbd { color: var(--text-3); font-size: 11px; font-family: var(--font-mono); }
+
+.list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 8px 12px;
+  scrollbar-width: thin;
+}
+.group + .group { margin-top: 6px; }
+.group-head {
+  display: flex; align-items: center; gap: 6px;
+  width: 100%;
+  padding: 6px 8px;
+  border: 0; border-radius: 5px;
+  background: transparent;
+  color: var(--text-2);
+  font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  text-align: left;
+}
+.group-head:hover { background: var(--surface-2); }
+.group-head .chev { transition: transform .15s ease; }
+.group-head[aria-expanded="false"] .chev { transform: rotate(-90deg); }
+.group-head .group-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-mono); text-transform: none; letter-spacing: 0; }
+.group-head .group-count { color: var(--text-3); font-weight: 500; font-variant-numeric: tabular-nums; }
+.group-items { display: flex; flex-direction: column; gap: 1px; }
+.group-head[aria-expanded="false"] + .group-items { display: none; }
+
+.item {
+  display: block;
+  padding: 7px 10px 7px 26px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--text);
+}
+.item:hover { background: var(--surface-2); }
+.item[aria-current="page"] { background: var(--accent-soft); color: var(--accent-text); }
+.item-title { display: block; font-weight: 500; line-height: 1.35; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item-meta {
+  display: flex; gap: 8px; align-items: baseline;
+  margin-top: 2px;
+  font-size: 11.5px; color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.item-meta code { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.item[aria-current="page"] .item-meta { color: var(--accent-text); opacity: .75; }
+
+.side-foot {
+  display: flex; justify-content: space-between; gap: 8px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  color: var(--text-3);
+  font-size: 11.5px; font-variant-numeric: tabular-nums;
+}
+.side-foot span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.list-msg {
+  margin: 8px;
+  padding: 12px;
+  border: 1px dashed var(--border-2);
+  border-radius: 6px;
+  color: var(--text-2);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.list-msg strong { color: var(--text); }
+.list-msg code { background: var(--surface-2); padding: 1px 4px; border-radius: 3px; }
+
+.resizer {
+  position: absolute; top: 0; right: -3px; width: 6px; height: 100%;
+  cursor: col-resize;
+  z-index: 2;
+}
+.resizer:hover, body.resizing .resizer { background: var(--accent-soft); }
+body.resizing { cursor: col-resize; user-select: none; }
+body.resizing iframe { pointer-events: none; }
+
+/* ---------- main ---------- */
+.main { display: flex; flex-direction: column; min-width: 0; background: var(--surface); }
+.topbar {
+  display: flex; align-items: center; gap: 12px;
+  min-height: 52px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.doc-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.doc-title { font-weight: 600; font-size: 14.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.doc-sub { display: flex; gap: 10px; align-items: baseline; min-width: 0; font-size: 12px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.doc-sub code { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-2); }
+.doc-sub span { white-space: nowrap; }
+.actions { display: flex; align-items: center; gap: 6px; flex: none; }
+.btn, .icon-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 10px;
+  border: 1px solid var(--border-2); border-radius: 6px;
+  background: var(--surface); color: var(--text-2);
+  font-size: 12.5px; text-decoration: none;
+  white-space: nowrap;
+}
+.btn:hover, .icon-btn:hover { background: var(--surface-2); color: var(--text); }
+.btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+.icon-btn { width: 30px; padding: 0; justify-content: center; }
+.toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 10px;
+  border: 1px solid var(--border-2); border-radius: 6px;
+  color: var(--text-2); font-size: 12.5px;
+  cursor: pointer; user-select: none;
+}
+.toggle input { margin: 0; accent-color: var(--accent); }
+.toggle:has(input:checked) { color: var(--accent-text); border-color: var(--accent); background: var(--accent-soft); }
+#menu-btn { display: none; }
+
+.stage { position: relative; flex: 1; min-height: 0; background: var(--surface); }
+#viewer {
+  display: block;
+  width: 100%; height: 100%;
+  border: 0;
+  background: var(--frame-bg);
+  color-scheme: light;
+}
+.empty {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  padding: 24px;
+  text-align: center;
+  color: var(--text-2);
+}
+.empty .box { max-width: 42ch; }
+.empty h2 { margin: 0 0 6px; font-size: 16px; font-weight: 600; color: var(--text); text-wrap: balance; }
+.empty p { margin: 0; line-height: 1.6; }
+.empty code { background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
+.empty .glyph { margin: 0 auto 14px; width: 40px; height: 40px; color: var(--text-3); }
+.loading {
+  position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  background-size: 50% 100%;
+  animation: slide 1s linear infinite;
+}
+@keyframes slide { from { background-position: -50% 0; } to { background-position: 150% 0; } }
+
+.toast {
+  position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%);
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: var(--text); color: var(--bg);
+  font-size: 12.5px;
+  box-shadow: var(--shadow);
+  z-index: 20;
+}
+.backdrop { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, .35); z-index: 9; }
+
+/* ---------- phone ---------- */
+@media (max-width: 760px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: min(320px, 86vw);
+    z-index: 10;
+    transform: translateX(-100%);
+    transition: transform .2s ease;
+    box-shadow: none;
+  }
+  .sidebar.open { transform: none; box-shadow: var(--shadow); }
+  .sidebar.open ~ .backdrop { display: block; }
+  .resizer { display: none; }
+  #menu-btn { display: inline-flex; }
+  .topbar { padding: 8px 12px; }
+  .btn .label { display: none; }
+  .btn { width: 30px; padding: 0; justify-content: center; }
+  .toggle .label { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sidebar, .group-head .chev { transition: none; }
+  .loading { animation: none; background: var(--accent); }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar" aria-label="File list">
+    <div class="side-head">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
+        <h1 id="site-title">HTML Library</h1>
+      </div>
+      <div class="search">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="search" type="search" placeholder="Search files" autocomplete="off" spellcheck="false" aria-label="Search files">
+      </div>
+      <div class="side-tools">
+        <label>Sort
+          <select id="sort" aria-label="Sort files">
+            <option value="title">Title</option>
+            <option value="modified">Newest</option>
+            <option value="path">Path</option>
+          </select>
+        </label>
+        <span class="kbd" title="Press / to search, ↑↓ to move">/ ↑ ↓</span>
+      </div>
+    </div>
+    <nav class="list" id="list" aria-label="Files"></nav>
+    <div class="side-foot">
+      <span id="count"></span>
+      <span id="generated"></span>
+    </div>
+    <div class="resizer" id="resizer" aria-hidden="true"></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="icon-btn" id="menu-btn" aria-label="Toggle file list" aria-controls="sidebar">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div class="doc-meta">
+        <div class="doc-title" id="doc-title">Select a file</div>
+        <div class="doc-sub"><code id="doc-path"></code><span id="doc-info"></span></div>
+      </div>
+      <div class="actions">
+        <label class="toggle" title="Load the page in a sandboxed iframe (no access to this page, cookies or storage)">
+          <input type="checkbox" id="sandbox"><span class="label">Sandbox</span>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        </label>
+        <button class="btn" id="copy-btn" aria-disabled="true" title="Copy a link to this file">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span class="label">Copy link</span>
+        </button>
+        <a class="btn" id="open-btn" aria-disabled="true" target="_blank" rel="noopener" title="Open the file in a new tab">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg><span class="label">Open</span>
+        </a>
+        <button class="icon-btn" id="theme-btn" aria-label="Theme: auto" title="Theme: auto">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="stage">
+      <div class="empty" id="empty">
+        <div class="box">
+          <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="M9 4v16M4 9h5"/></svg>
+          <h2 id="empty-title">Select a file from the list</h2>
+          <p id="empty-text">Every HTML file in the <code>html/</code> folder of this repository shows up on the left.</p>
+        </div>
+      </div>
+      <div class="loading" id="loading" hidden></div>
+      <iframe id="viewer" title="Page viewer" referrerpolicy="same-origin" hidden></iframe>
+    </div>
+  </main>
+  <div class="backdrop" id="backdrop"></div>
+</div>
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ================= configuration ================= */
+  var CONFIG = {
+    manifestUrl: 'manifest.json',       // written by scripts/build_manifest.py (see workflow)
+    sandboxDefault: false,              // true = start with the sandboxed iframe on
+    sandboxFlags: 'allow-scripts allow-forms allow-popups allow-modals allow-downloads',
+    storageKey: 'html-library:prefs'
+  };
+
+  var $ = function (s) { return document.querySelector(s); };
+  var els = {
+    sidebar: $('#sidebar'), list: $('#list'), search: $('#search'), sort: $('#sort'),
+    count: $('#count'), generated: $('#generated'), siteTitle: $('#site-title'),
+    docTitle: $('#doc-title'), docPath: $('#doc-path'), docInfo: $('#doc-info'),
+    sandbox: $('#sandbox'), copyBtn: $('#copy-btn'), openBtn: $('#open-btn'),
+    themeBtn: $('#theme-btn'), menuBtn: $('#menu-btn'), backdrop: $('#backdrop'),
+    viewer: $('#viewer'), empty: $('#empty'), emptyTitle: $('#empty-title'),
+    emptyText: $('#empty-text'), loading: $('#loading'), toast: $('#toast'), resizer: $('#resizer')
+  };
+
+  var state = {
+    siteTitle: document.title,
+    files: [], byPath: new Map(), current: null,
+    query: '', sort: 'title', collapsed: new Set(),
+    sandbox: CONFIG.sandboxDefault, theme: 'auto', sidebarW: null
+  };
+
+  /* ================= preferences (per browser, best effort) ================= */
+  function loadPrefs() {
+    try {
+      var raw = localStorage.getItem(CONFIG.storageKey);
+      if (!raw) return;
+      var p = JSON.parse(raw);
+      if (p.sort) state.sort = p.sort;
+      if (Array.isArray(p.collapsed)) state.collapsed = new Set(p.collapsed);
+      if (typeof p.sandbox === 'boolean') state.sandbox = p.sandbox;
+      if (p.theme) state.theme = p.theme;
+      if (typeof p.sidebarW === 'number') state.sidebarW = p.sidebarW;
+    } catch (e) { /* storage unavailable */ }
+  }
+  function savePrefs() {
+    try {
+      localStorage.setItem(CONFIG.storageKey, JSON.stringify({
+        sort: state.sort, collapsed: Array.from(state.collapsed),
+        sandbox: state.sandbox, theme: state.theme, sidebarW: state.sidebarW
+      }));
+    } catch (e) { /* ignore */ }
+  }
+
+  /* ================= helpers ================= */
+  function isSafePath(p) {
+    if (typeof p !== 'string' || !p) return false;
+    if (/^[a-z][a-z0-9+.-]*:/i.test(p)) return false;       // no scheme (http:, javascript:, ...)
+    if (p.charAt(0) === '/' || p.charAt(0) === '\\') return false;
+    return p.split('/').indexOf('..') === -1;
+  }
+  function encodePath(p) { return p.split('/').map(encodeURIComponent).join('/'); }
+  function prettify(name) { return name.replace(/\.html?$/i, '').replace(/[-_]+/g, ' ').trim(); }
+  function dirOf(path, root) {
+    var parts = path.split('/'); parts.pop();
+    if (root && parts[0] === root) parts.shift();
+    return parts.join('/');
+  }
+  function fmtDate(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return String(iso);
+    return d.toLocaleDateString('sv-SE'); // YYYY-MM-DD in the viewer's timezone
+  }
+  function fmtSize(n) {
+    if (typeof n !== 'number') return '';
+    if (n < 1024) return n + ' B';
+    if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+  var toastTimer;
+  function toast(msg) {
+    els.toast.textContent = msg; els.toast.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { els.toast.hidden = true; }, 1800);
+  }
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  /* ================= theme ================= */
+  function applyTheme() {
+    var root = document.documentElement;
+    if (state.theme === 'auto') root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', state.theme);
+    var label = 'Theme: ' + state.theme;
+    els.themeBtn.setAttribute('aria-label', label); els.themeBtn.title = label;
+  }
+  els.themeBtn.addEventListener('click', function () {
+    state.theme = state.theme === 'auto' ? 'light' : state.theme === 'light' ? 'dark' : 'auto';
+    applyTheme(); savePrefs(); toast('Theme: ' + state.theme);
+  });
+
+  /* ================= manifest ================= */
+  function normalize(m) {
+    var root = typeof m.root === 'string' ? m.root.replace(/^\/+|\/+$/g, '') : '';
+    var files = [];
+    (m.files || []).forEach(function (f) {
+      if (!f || !isSafePath(f.path)) return;
+      var name = f.name || f.path.split('/').pop();
+      files.push({
+        path: f.path,
+        name: name,
+        dir: typeof f.dir === 'string' ? f.dir : dirOf(f.path, root),
+        title: (typeof f.title === 'string' && f.title.trim()) ? f.title.trim() : prettify(name),
+        modified: f.modified || null,
+        size: typeof f.size === 'number' ? f.size : null,
+        srcdoc: typeof f.srcdoc === 'string' ? f.srcdoc : null   // inline preview entries only
+      });
+    });
+    state.files = files;
+    state.byPath = new Map(files.map(function (f) { return [f.path, f]; }));
+    if (typeof m.site_title === 'string' && m.site_title.trim()) {
+      state.siteTitle = m.site_title.trim();
+      els.siteTitle.textContent = state.siteTitle;
+      document.title = state.siteTitle;
+    }
+    els.generated.textContent = m.generated_at ? 'Updated ' + fmtDate(m.generated_at) : '';
+    els.emptyText.innerHTML = '';
+    els.emptyText.append('Every HTML file in the ', Object.assign(el('code'), { textContent: (root || 'html') + '/' }), ' folder of this repository shows up on the left.');
+  }
+
+  function loadManifest() {
+    if (window.__MANIFEST__) return Promise.resolve(window.__MANIFEST__);
+    return fetch(CONFIG.manifestUrl, { cache: 'no-cache' }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    });
+  }
+
+  function showManifestError(err) {
+    els.list.innerHTML = '';
+    var box = el('div', 'list-msg');
+    box.append(Object.assign(el('strong'), { textContent: 'manifest.json not found' }), ' (' + err.message + '). ');
+    box.append('It is generated on every push by the GitHub Actions workflow, or locally with ');
+    box.append(Object.assign(el('code'), { textContent: 'python scripts/build_manifest.py' }), '.');
+    els.list.appendChild(box);
+    els.count.textContent = '';
+    els.emptyTitle.textContent = 'No file list yet';
+    els.emptyText.textContent = 'Run the deploy workflow (Settings → Pages → Source: GitHub Actions) or build manifest.json locally.';
+  }
+
+  /* ================= list rendering ================= */
+  function sorted(files) {
+    var s = state.sort;
+    return files.slice().sort(function (a, b) {
+      if (s === 'modified') {
+        var d = (b.modified || '').localeCompare(a.modified || '');
+        if (d) return d;
+      } else if (s === 'path') {
+        return a.path.localeCompare(b.path, undefined, { numeric: true });
+      }
+      return a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' })
+        || a.path.localeCompare(b.path);
+    });
+  }
+
+  function render() {
+    var q = state.query.trim().toLowerCase();
+    var visible = state.files.filter(function (f) {
+      return !q || f.title.toLowerCase().indexOf(q) !== -1 || f.path.toLowerCase().indexOf(q) !== -1;
+    });
+    var groups = new Map();
+    sorted(visible).forEach(function (f) {
+      if (!groups.has(f.dir)) groups.set(f.dir, []);
+      groups.get(f.dir).push(f);
+    });
+    var dirs = Array.from(groups.keys()).sort(function (a, b) {
+      if (a === '') return -1; if (b === '') return 1;
+      return a.localeCompare(b, undefined, { numeric: true });
+    });
+
+    els.list.innerHTML = '';
+    if (!state.files.length) {
+      var msg = el('div', 'list-msg');
+      msg.append('No HTML files yet. Add files to the ', Object.assign(el('code'), { textContent: 'html/' }), ' folder and push.');
+      els.list.appendChild(msg);
+    } else if (!visible.length) {
+      els.list.appendChild(el('div', 'list-msg', 'No files match "' + state.query.trim() + '".'));
+    }
+
+    dirs.forEach(function (dir) {
+      var g = el('div', 'group');
+      var head = el('button', 'group-head');
+      head.type = 'button';
+      var expanded = q ? true : !state.collapsed.has(dir);
+      head.setAttribute('aria-expanded', String(expanded));
+      var chev = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      chev.setAttribute('class', 'icon chev'); chev.setAttribute('viewBox', '0 0 24 24'); chev.setAttribute('aria-hidden', 'true');
+      var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', 'm7 10 5 5 5-5'); chev.appendChild(path);
+      head.append(chev, el('span', 'group-name', dir === '' ? '/' : dir + '/'), el('span', 'group-count', String(groups.get(dir).length)));
+      head.addEventListener('click', function () {
+        if (state.collapsed.has(dir)) state.collapsed.delete(dir); else state.collapsed.add(dir);
+        head.setAttribute('aria-expanded', String(!state.collapsed.has(dir)));
+        savePrefs();
+      });
+      var items = el('div', 'group-items');
+      groups.get(dir).forEach(function (f) {
+        var a = el('a', 'item');
+        a.href = '#/' + encodePath(f.path);
+        a.dataset.path = f.path;
+        a.title = f.path;
+        if (state.current && state.current.path === f.path) a.setAttribute('aria-current', 'page');
+        var meta = el('span', 'item-meta');
+        meta.append(Object.assign(el('code'), { textContent: f.name }));
+        if (f.modified) meta.append(el('span', null, fmtDate(f.modified)));
+        a.append(el('span', 'item-title', f.title), meta);
+        items.appendChild(a);
+      });
+      g.append(head, items);
+      els.list.appendChild(g);
+    });
+
+    els.count.textContent = q
+      ? visible.length + ' / ' + state.files.length + ' files'
+      : state.files.length + ' file' + (state.files.length === 1 ? '' : 's');
+  }
+
+  function markActive(f) {
+    Array.prototype.forEach.call(els.list.querySelectorAll('.item'), function (a) {
+      if (f && a.dataset.path === f.path) {
+        a.setAttribute('aria-current', 'page');
+        if (typeof a.scrollIntoView === 'function') a.scrollIntoView({ block: 'nearest' });
+      } else a.removeAttribute('aria-current');
+    });
+  }
+
+  /* ================= viewer ================= */
+  function updateToolbar(f) {
+    if (!f) {
+      els.docTitle.textContent = 'Select a file';
+      els.docPath.textContent = ''; els.docInfo.textContent = '';
+      els.copyBtn.setAttribute('aria-disabled', 'true');
+      els.openBtn.setAttribute('aria-disabled', 'true'); els.openBtn.removeAttribute('href');
+      return;
+    }
+    els.docTitle.textContent = f.title;
+    els.docPath.textContent = f.path;
+    var info = [];
+    if (f.modified) info.push(fmtDate(f.modified));
+    if (f.size != null) info.push(fmtSize(f.size));
+    els.docInfo.textContent = info.join(' · ');
+    els.copyBtn.setAttribute('aria-disabled', 'false');
+    if (f.srcdoc != null) { els.openBtn.setAttribute('aria-disabled', 'true'); els.openBtn.removeAttribute('href'); }
+    else { els.openBtn.setAttribute('aria-disabled', 'false'); els.openBtn.href = encodePath(f.path); }
+  }
+
+  function loadIntoViewer(f) {
+    var v = els.viewer;
+    els.empty.hidden = true; els.loading.hidden = false; v.hidden = false;
+    if (state.sandbox) v.setAttribute('sandbox', CONFIG.sandboxFlags); else v.removeAttribute('sandbox');
+    // Reset first so a sandbox change or a reload of the same path always renavigates.
+    v.removeAttribute('srcdoc'); v.src = 'about:blank';
+    requestAnimationFrame(function () {
+      if (f.srcdoc != null) v.srcdoc = f.srcdoc;
+      else v.src = encodePath(f.path);
+    });
+  }
+  els.viewer.addEventListener('load', function () {
+    if (els.viewer.src !== 'about:blank' || els.viewer.hasAttribute('srcdoc')) els.loading.hidden = true;
+  });
+
+  function showEmpty(title, text) {
+    els.viewer.hidden = true; els.viewer.removeAttribute('srcdoc'); els.viewer.src = 'about:blank';
+    els.loading.hidden = true; els.empty.hidden = false;
+    if (title) els.emptyTitle.textContent = title;
+    if (text) els.emptyText.textContent = text;
+  }
+
+  function openPath(path) {
+    var f = path ? state.byPath.get(path) : null;
+    if (!f) {
+      state.current = null;
+      updateToolbar(null); markActive(null);
+      document.title = state.siteTitle;
+      if (path) showEmpty('File not found', path + ' is not in the manifest. Push the file and let the workflow rebuild the list.');
+      else showEmpty('Select a file from the list');
+      return;
+    }
+    state.current = f;
+    updateToolbar(f); markActive(f); loadIntoViewer(f);
+    document.title = f.title + ' · ' + state.siteTitle;
+    closeDrawer();
+  }
+
+  function pathFromHash() {
+    var h = location.hash.replace(/^#\/?/, '');
+    try { return decodeURIComponent(h); } catch (e) { return h; }
+  }
+  window.addEventListener('hashchange', function () { openPath(pathFromHash()); });
+
+  /* ================= controls ================= */
+  els.search.addEventListener('input', function () { state.query = els.search.value; render(); });
+  els.search.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { els.search.value = ''; state.query = ''; render(); }
+    if (e.key === 'ArrowDown') { var first = els.list.querySelector('.item'); if (first) { first.focus(); e.preventDefault(); } }
+    if (e.key === 'Enter') { var one = els.list.querySelector('.item'); if (one) location.hash = one.getAttribute('href'); }
+  });
+  els.sort.addEventListener('change', function () { state.sort = els.sort.value; savePrefs(); render(); });
+  els.sandbox.addEventListener('change', function () {
+    state.sandbox = els.sandbox.checked; savePrefs();
+    if (state.current) loadIntoViewer(state.current);
+    toast(state.sandbox ? 'Sandbox on: pages cannot touch this page, cookies or storage' : 'Sandbox off');
+  });
+  els.copyBtn.addEventListener('click', function () {
+    if (!state.current) return;
+    var url = location.href.split('#')[0] + '#/' + encodePath(state.current.path);
+    var done = function () { toast('Link copied'); };
+    var fail = function () { window.prompt('Copy this link', url); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, fail);
+    else fail();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    var tag = (e.target.tagName || '').toLowerCase();
+    var typing = tag === 'input' || tag === 'select' || tag === 'textarea' || e.target.isContentEditable;
+    if (e.key === '/' && !typing) { e.preventDefault(); els.search.focus(); els.search.select(); return; }
+    if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && e.target.classList && e.target.classList.contains('item')) {
+      var items = Array.prototype.filter.call(els.list.querySelectorAll('.item'), function (a) { return a.offsetParent !== null; });
+      var i = items.indexOf(e.target);
+      var next = items[i + (e.key === 'ArrowDown' ? 1 : -1)];
+      if (next) { next.focus(); e.preventDefault(); }
+    }
+  });
+
+  /* drawer (phone) */
+  function closeDrawer() { els.sidebar.classList.remove('open'); }
+  els.menuBtn.addEventListener('click', function () { els.sidebar.classList.toggle('open'); });
+  els.backdrop.addEventListener('click', closeDrawer);
+
+  /* resizable sidebar */
+  function applySidebarWidth() {
+    if (state.sidebarW) document.documentElement.style.setProperty('--sidebar-w', state.sidebarW + 'px');
+  }
+  els.resizer.addEventListener('pointerdown', function (e) {
+    e.preventDefault();
+    els.resizer.setPointerCapture(e.pointerId);
+    document.body.classList.add('resizing');
+    var move = function (ev) {
+      state.sidebarW = Math.min(560, Math.max(200, Math.round(ev.clientX)));
+      applySidebarWidth();
+    };
+    var up = function () {
+      document.body.classList.remove('resizing');
+      els.resizer.removeEventListener('pointermove', move);
+      els.resizer.removeEventListener('pointerup', up);
+      els.resizer.removeEventListener('pointercancel', up);
+      savePrefs();
+    };
+    els.resizer.addEventListener('pointermove', move);
+    els.resizer.addEventListener('pointerup', up);
+    els.resizer.addEventListener('pointercancel', up);
+  });
+
+  /* ================= boot ================= */
+  loadPrefs();
+  applyTheme(); applySidebarWidth();
+  els.sort.value = state.sort;
+  els.sandbox.checked = state.sandbox;
+
+  loadManifest().then(function (m) {
+    normalize(m);
+    render();
+    openPath(pathFromHash());
+  }).catch(function (err) {
+    showManifestError(err);
+  });
+})();
+</script>
+</body>
+</html>
