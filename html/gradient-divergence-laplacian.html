@@ -1361,6 +1361,104 @@ html&gt;body{padding:0}&lt;/style&gt;
       &lt;div class=&quot;text-small tabular-nums&quot; id=&quot;svf-flux&quot;&gt;유출 1 − 유입 1 = 순유출 0&lt;/div&gt;
     &lt;/section&gt;
   &lt;/div&gt;
+  &lt;hr&gt;
+  &lt;section class=&quot;svf-theory&quot;&gt;
+    &lt;h3&gt;세 연산의 기하학적 의미&lt;/h3&gt;
+    &lt;p&gt;스칼라장 f(x, y)를 지형의 높이라고 생각하면 세 연산은 한 줄로 이어집니다. 기울기는 숫자의 장(스칼라장)을 화살표의 장(벡터장)으로 바꾸고, 발산은 화살표의 장을 다시 숫자의 장으로 되돌립니다. 이 둘을 연달아 적용한 것이 라플라시안입니다.&lt;/p&gt;
+    &lt;p class=&quot;svf-chain tabular-nums&quot;&gt;스칼라장 f ─(기울기 ∇)→ 벡터장 ∇f ─(발산 ∇·)→ 스칼라장 ∇²f = ∇·(∇f)&lt;/p&gt;
+    &lt;div class=&quot;svf-cards&quot;&gt;
+      &lt;article class=&quot;card&quot;&gt;
+        &lt;h3&gt;기울기 ∇f — 가장 가파른 오르막의 방향&lt;/h3&gt;
+        &lt;p class=&quot;text-small text-muted&quot;&gt;스칼라장 → 벡터장&lt;/p&gt;
+        &lt;svg viewBox=&quot;0 0 260 110&quot; role=&quot;img&quot; aria-label=&quot;등고선에 수직으로 가장 가파른 오르막을 가리키는 기울기 화살표&quot;&gt;
+          &lt;g fill=&quot;none&quot; stroke=&quot;var(--muted-foreground)&quot; opacity=&quot;0.55&quot;&gt;
+            &lt;circle cx=&quot;70&quot; cy=&quot;55&quot; r=&quot;18&quot;/&gt;
+            &lt;circle cx=&quot;70&quot; cy=&quot;55&quot; r=&quot;36&quot;/&gt;
+            &lt;circle cx=&quot;70&quot; cy=&quot;55&quot; r=&quot;54&quot;/&gt;
+          &lt;/g&gt;
+          &lt;text x=&quot;70&quot; y=&quot;59&quot; text-anchor=&quot;middle&quot; font-size=&quot;11&quot; fill=&quot;var(--muted-foreground)&quot;&gt;낮음&lt;/text&gt;
+          &lt;circle cx=&quot;124&quot; cy=&quot;55&quot; r=&quot;3.5&quot; fill=&quot;var(--foreground)&quot;/&gt;
+          &lt;path d=&quot;M124,55L166,55M158,50L166,55L158,60&quot; fill=&quot;none&quot; stroke=&quot;var(--viz-series-1)&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;
+          &lt;text x=&quot;172&quot; y=&quot;59&quot; font-size=&quot;12&quot; fill=&quot;var(--foreground)&quot;&gt;∇f&lt;/text&gt;
+          &lt;text x=&quot;130&quot; y=&quot;102&quot; text-anchor=&quot;middle&quot; font-size=&quot;11&quot; fill=&quot;var(--muted-foreground)&quot;&gt;등고선과 항상 수직&lt;/text&gt;
+        &lt;/svg&gt;
+        &lt;p&gt;&lt;b&gt;기하학적 의미:&lt;/b&gt; 각 점에서 f가 가장 가파르게 증가하는 방향을 가리키는 화살표입니다. 화살표의 길이는 그 방향으로의 변화율(가파른 정도)이고, 등고선과는 항상 수직으로 만납니다.&lt;/p&gt;
+        &lt;p&gt;&lt;b&gt;직관:&lt;/b&gt; 산 중턱에 서서 「어느 쪽이 제일 가파른 오르막인가?」를 가리키는 나침반입니다. 위 데모 오른쪽의 화살표들이 바로 왼쪽 스칼라장의 기울기장 ∇f = (ax, by)입니다.&lt;/p&gt;
+      &lt;/article&gt;
+      &lt;article class=&quot;card&quot;&gt;
+        &lt;h3&gt;발산 ∇·F — 점에서 새어 나오는 양&lt;/h3&gt;
+        &lt;p class=&quot;text-small text-muted&quot;&gt;벡터장 → 스칼라장&lt;/p&gt;
+        &lt;svg viewBox=&quot;0 0 260 110&quot; role=&quot;img&quot; aria-label=&quot;샘에서 퍼져 나가는 화살표와 배수구로 모여드는 화살표&quot;&gt;
+          &lt;defs&gt;
+            &lt;marker id=&quot;svf-arrowhead-div&quot; viewBox=&quot;0 0 8 8&quot; refX=&quot;6&quot; refY=&quot;4&quot; markerWidth=&quot;5&quot; markerHeight=&quot;5&quot; orient=&quot;auto-start-reverse&quot;&gt;
+              &lt;path d=&quot;M1,1L7,4L1,7&quot; fill=&quot;none&quot; stroke=&quot;var(--viz-series-1)&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;
+            &lt;/marker&gt;
+          &lt;/defs&gt;
+          &lt;g stroke=&quot;var(--viz-series-1)&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; fill=&quot;none&quot; marker-end=&quot;url(#svf-arrowhead-div)&quot;&gt;
+            &lt;path d=&quot;M77,53L97,53&quot;/&gt;&lt;path d=&quot;M53,53L33,53&quot;/&gt;&lt;path d=&quot;M65,41L65,21&quot;/&gt;&lt;path d=&quot;M65,65L65,85&quot;/&gt;
+            &lt;path d=&quot;M74,44L88,30&quot;/&gt;&lt;path d=&quot;M56,44L42,30&quot;/&gt;&lt;path d=&quot;M74,62L88,76&quot;/&gt;&lt;path d=&quot;M56,62L42,76&quot;/&gt;
+            &lt;path d=&quot;M227,53L207,53&quot;/&gt;&lt;path d=&quot;M163,53L183,53&quot;/&gt;&lt;path d=&quot;M195,21L195,41&quot;/&gt;&lt;path d=&quot;M195,85L195,65&quot;/&gt;
+            &lt;path d=&quot;M218,30L204,44&quot;/&gt;&lt;path d=&quot;M172,30L186,44&quot;/&gt;&lt;path d=&quot;M218,76L204,62&quot;/&gt;&lt;path d=&quot;M172,76L186,62&quot;/&gt;
+          &lt;/g&gt;
+          &lt;circle cx=&quot;65&quot; cy=&quot;53&quot; r=&quot;4&quot; fill=&quot;var(--foreground)&quot;/&gt;
+          &lt;circle cx=&quot;195&quot; cy=&quot;53&quot; r=&quot;4&quot; fill=&quot;var(--foreground)&quot;/&gt;
+          &lt;text x=&quot;65&quot; y=&quot;104&quot; text-anchor=&quot;middle&quot; font-size=&quot;11&quot; fill=&quot;var(--muted-foreground)&quot;&gt;발산 양수 · 샘&lt;/text&gt;
+          &lt;text x=&quot;195&quot; y=&quot;104&quot; text-anchor=&quot;middle&quot; font-size=&quot;11&quot; fill=&quot;var(--muted-foreground)&quot;&gt;발산 음수 · 배수구&lt;/text&gt;
+        &lt;/svg&gt;
+        &lt;p&gt;&lt;b&gt;기하학적 의미:&lt;/b&gt; 한 점을 둘러싼 아주 작은 상자를 그렸을 때, 화살표가 상자 밖으로 빠져나가는 순 유출량(단위 면적당)입니다. 나가는 흐름이 더 많으면 양수, 들어오는 흐름이 더 많으면 음수, 균형이면 0입니다.&lt;/p&gt;
+        &lt;p&gt;&lt;b&gt;직관:&lt;/b&gt; 벡터장을 물의 흐름이라고 하면 발산이 양수인 점은 물이 솟아나는 샘, 음수인 점은 물이 빨려 들어가는 배수구입니다. 위 데모 오른쪽 사각형의 「유출 − 유입」 계산이 정확히 발산입니다.&lt;/p&gt;
+      &lt;/article&gt;
+      &lt;article class=&quot;card&quot;&gt;
+        &lt;h3&gt;라플라시안 ∇²f — 이웃 평균과의 차이&lt;/h3&gt;
+        &lt;p class=&quot;text-small text-muted&quot;&gt;스칼라장 → 스칼라장, ∇²f = ∇·(∇f)&lt;/p&gt;
+        &lt;svg viewBox=&quot;0 0 260 110&quot; role=&quot;img&quot; aria-label=&quot;이웃 평균보다 낮은 중심점이 평균 쪽으로 끌려 올라가는 모습&quot;&gt;
+          &lt;path d=&quot;M20,35Q130,115 240,35&quot; fill=&quot;none&quot; stroke=&quot;var(--muted-foreground)&quot; stroke-width=&quot;1.5&quot; opacity=&quot;0.7&quot;/&gt;
+          &lt;path d=&quot;M60,59L200,59&quot; fill=&quot;none&quot; stroke=&quot;var(--muted-foreground)&quot; stroke-dasharray=&quot;4 4&quot;/&gt;
+          &lt;circle cx=&quot;60&quot; cy=&quot;59&quot; r=&quot;3.5&quot; fill=&quot;var(--foreground)&quot;/&gt;
+          &lt;circle cx=&quot;200&quot; cy=&quot;59&quot; r=&quot;3.5&quot; fill=&quot;var(--foreground)&quot;/&gt;
+          &lt;text x=&quot;206&quot; y=&quot;50&quot; font-size=&quot;11&quot; fill=&quot;var(--muted-foreground)&quot;&gt;이웃 평균&lt;/text&gt;
+          &lt;circle cx=&quot;130&quot; cy=&quot;75&quot; r=&quot;4&quot; fill=&quot;var(--viz-series-2)&quot;/&gt;
+          &lt;path d=&quot;M130,69L130,48M125,54L130,48L135,54&quot; fill=&quot;none&quot; stroke=&quot;var(--viz-series-1)&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;
+          &lt;text x=&quot;130&quot; y=&quot;102&quot; text-anchor=&quot;middle&quot; font-size=&quot;11&quot; fill=&quot;var(--muted-foreground)&quot;&gt;평균보다 낮으면 ∇²f 양수 · 평균 쪽으로 끌림&lt;/text&gt;
+        &lt;/svg&gt;
+        &lt;p&gt;&lt;b&gt;기하학적 의미:&lt;/b&gt; 기울기장에 발산을 적용한 것으로, 값은 「이웃 값들의 평균 − 자기 값」에 비례합니다. 주변 평균보다 낮은 움푹한 점에서는 양수, 주변보다 높은 볼록한 점(언덕 꼭대기)에서는 음수입니다.&lt;/p&gt;
+        &lt;p&gt;&lt;b&gt;직관:&lt;/b&gt; 「나는 이웃 평균보다 높은가, 낮은가」를 재는 계기판입니다. 열이 퍼질 때 라플라시안이 양수인 곳(주변보다 차가운 곳)은 온도가 올라갑니다. 확산은 모든 점을 이웃 평균 쪽으로 끌어당기고, 그 세기가 라플라시안입니다. 위 데모 왼쪽의 「이웃 네 점 평균 · 중심값」 비교가 같은 원리입니다.&lt;/p&gt;
+      &lt;/article&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;svf-vs&quot;&gt;
+      &lt;h3&gt;그래서 기울기와 라플라시안은 뭐가 다른가?&lt;/h3&gt;
+      &lt;p&gt;기울기는 1차 변화인 「기울어짐」을, 라플라시안은 2차 변화인 「휘어짐」을 잽니다. 곧게 기울어진 경사면은 아무리 가팔라도(기울기 큼) 전혀 휘지 않았으므로 라플라시안이 0입니다. 반대로 골짜기 바닥과 언덕 꼭대기는 순간적으로 평평하지만(기울기 0) 가장 심하게 휘어 있어 라플라시안의 절댓값이 가장 큽니다. 두 값은 서로 대신할 수 없는 다른 정보입니다.&lt;/p&gt;
+      &lt;svg viewBox=&quot;0 0 520 170&quot; role=&quot;img&quot; aria-label=&quot;경사면에서는 기울기만 있고 라플라시안은 0, 골짜기 바닥과 언덕 꼭대기에서는 기울기가 0이고 라플라시안만 남는 모습&quot;&gt;
+        &lt;path d=&quot;M20,16L160,100Q220,150 280,100Q360,20 440,100L492,152&quot; fill=&quot;none&quot; stroke=&quot;var(--muted-foreground)&quot; stroke-width=&quot;1.8&quot; opacity=&quot;0.8&quot;/&gt;
+        &lt;path d=&quot;M192,125L248,125&quot; fill=&quot;none&quot; stroke=&quot;var(--muted-foreground)&quot; stroke-dasharray=&quot;4 4&quot;/&gt;
+        &lt;path d=&quot;M332,60L388,60&quot; fill=&quot;none&quot; stroke=&quot;var(--muted-foreground)&quot; stroke-dasharray=&quot;4 4&quot;/&gt;
+        &lt;circle cx=&quot;90&quot; cy=&quot;58&quot; r=&quot;3.5&quot; fill=&quot;var(--foreground)&quot;/&gt;
+        &lt;path d=&quot;M90,58L61,41M69,43L61,41L65,49&quot; fill=&quot;none&quot; stroke=&quot;var(--viz-series-1)&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;
+        &lt;text x=&quot;44&quot; y=&quot;28&quot; font-size=&quot;11&quot; fill=&quot;var(--foreground)&quot;&gt;∇f&lt;/text&gt;
+        &lt;text x=&quot;92&quot; y=&quot;92&quot; text-anchor=&quot;middle&quot; font-size=&quot;11&quot; fill=&quot;var(--muted-foreground)&quot;&gt;경사면: ∇f 큼&lt;/text&gt;
+        &lt;text x=&quot;92&quot; y=&quot;106&quot; text-anchor=&quot;middle&quot; font-size=&quot;11&quot; fill=&quot;var(--muted-foreground)&quot;&gt;∇²f = 0&lt;/text&gt;
+        &lt;circle cx=&quot;220&quot; cy=&quot;125&quot; r=&quot;4&quot; fill=&quot;var(--viz-series-2)&quot;/&gt;
+        &lt;text x=&quot;220&quot; y=&quot;150&quot; text-anchor=&quot;middle&quot; font-size=&quot;11&quot; fill=&quot;var(--muted-foreground)&quot;&gt;골짜기 바닥: ∇f = 0&lt;/text&gt;
+        &lt;text x=&quot;220&quot; y=&quot;164&quot; text-anchor=&quot;middle&quot; font-size=&quot;11&quot; fill=&quot;var(--muted-foreground)&quot;&gt;∇²f 양수&lt;/text&gt;
+        &lt;circle cx=&quot;360&quot; cy=&quot;60&quot; r=&quot;4&quot; fill=&quot;var(--viz-series-3)&quot;/&gt;
+        &lt;text x=&quot;360&quot; y=&quot;26&quot; text-anchor=&quot;middle&quot; font-size=&quot;11&quot; fill=&quot;var(--muted-foreground)&quot;&gt;꼭대기: ∇f = 0&lt;/text&gt;
+        &lt;text x=&quot;360&quot; y=&quot;40&quot; text-anchor=&quot;middle&quot; font-size=&quot;11&quot; fill=&quot;var(--muted-foreground)&quot;&gt;∇²f 음수&lt;/text&gt;
+      &lt;/svg&gt;
+      &lt;div class=&quot;table-responsive&quot;&gt;
+        &lt;table class=&quot;table table-sm&quot;&gt;
+          &lt;thead&gt;&lt;tr&gt;&lt;th&gt;구분&lt;/th&gt;&lt;th&gt;기울기 ∇f&lt;/th&gt;&lt;th&gt;라플라시안 ∇²f&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+          &lt;tbody&gt;
+            &lt;tr&gt;&lt;th&gt;재는 것&lt;/th&gt;&lt;td&gt;기울어짐 — 1차 변화율&lt;/td&gt;&lt;td&gt;휘어짐 — 2차 변화율(이웃 평균 − 자기 값)&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;th&gt;결과물&lt;/th&gt;&lt;td&gt;벡터 — 방향과 크기&lt;/td&gt;&lt;td&gt;스칼라 — 부호 있는 숫자 하나&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;th&gt;0이 되는 곳&lt;/th&gt;&lt;td&gt;골짜기 바닥, 언덕 꼭대기, 안장점&lt;/td&gt;&lt;td&gt;곧게 뻗은 경사면처럼 기울기가 일정한 곳&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;th&gt;묻는 질문&lt;/th&gt;&lt;td&gt;「어느 쪽이 가장 가파른 오르막인가?」&lt;/td&gt;&lt;td&gt;「나는 이웃 평균보다 높은가, 낮은가?」&lt;/td&gt;&lt;/tr&gt;
+          &lt;/tbody&gt;
+        &lt;/table&gt;
+      &lt;/div&gt;
+      &lt;p class=&quot;text-small text-muted&quot;&gt;위 데모의 안장이 좋은 예입니다. 원점에서 기울기도 0이지만, 라플라시안 역시 x 방향의 U자 휘어짐(+1)과 y 방향의 ∩자 휘어짐(−1)이 상쇄되어 0이 됩니다. 이렇게 두 값이 따로 노는 것이 둘이 다른 양이라는 증거입니다.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;p class=&quot;text-small text-muted&quot;&gt;위 데모로 확인해 보세요. 그릇 f = (x² + y²)/2 은 중심이 이웃보다 낮아 어디서나 ∇²f = +2, 언덕은 반대로 −2, 안장은 한 방향의 오목함과 다른 방향의 볼록함이 정확히 상쇄되어 0입니다. 발산과 라플라시안이 항상 같은 값으로 표시되는 이유는 오른쪽 벡터장이 왼쪽 스칼라장의 기울기장이기 때문입니다.&lt;/p&gt;
+  &lt;/section&gt;
   &lt;style&gt;
     #svf-lesson { color:var(--foreground); }
     #svf-lesson .svf-panels { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr)); gap:24px; }
@@ -1372,6 +1470,12 @@ html&gt;body{padding:0}&lt;/style&gt;
     #svf-lesson .svf-svg text { fill:var(--foreground); font-size:12px; }
     #svf-lesson .svf-svg .label-halo { paint-order:stroke; stroke:var(--background); stroke-width:5px; stroke-linejoin:round; }
     #svf-lesson .svf-svg .arrow { fill:none; stroke:var(--viz-series-1); stroke-linecap:round; stroke-linejoin:round; }
+    #svf-lesson .svf-theory { display:flex; flex-direction:column; gap:12px; margin-top:4px; }
+    #svf-lesson .svf-chain { margin:0; padding:8px 12px; border-radius:var(--radius-lg); background:var(--muted); overflow-x:auto; }
+    #svf-lesson .svf-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr)); gap:12px; }
+    #svf-lesson .svf-cards .card { display:flex; flex-direction:column; gap:8px; }
+    #svf-lesson .svf-theory svg { display:block; width:100%; height:auto; }
+    #svf-lesson .svf-vs { display:flex; flex-direction:column; gap:10px; }
   &lt;/style&gt;
   &lt;script&gt;
   (() =&gt; {
