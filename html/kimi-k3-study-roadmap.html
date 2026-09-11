@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kimi K3 스터디 로드맵 — 다섯 축으로 읽는 19편의 논문 경로</title>
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']]},svg:{fontCache:'global'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#20211f; --ink-soft:#5a5c57; --paper:#fdfdfc; --rule:#dcdcd6;
+    --accent:#37506d; --accent-bg:#eef2f6; --code-bg:#f4f4f1;
+    --intuit:#2e6b46; --intuit-bg:#eef4f0; --expert:#8a6116; --expert-bg:#faf7f0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:17px;}
+  body{background:var(--paper);color:var(--ink);font-family:"Source Serif 4","Noto Serif KR",Georgia,serif;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  article{max-width:46rem;margin:0 auto;padding:4rem 1.4rem 6rem;}
+  header{border-bottom:1px solid var(--rule);padding-bottom:2.2rem;margin-bottom:2.8rem;}
+  header h1{font-size:1.9rem;font-weight:600;line-height:1.35;letter-spacing:-0.01em;}
+  header p.lede{margin-top:1rem;color:var(--ink-soft);font-size:1.02rem;max-width:40rem;}
+  .toc{border:1px solid var(--rule);padding:1.1rem 1.3rem;margin-bottom:3rem;font-size:.93rem;}
+  .toc ul{margin:.5rem 0 0 1.2rem;} .toc li{margin-bottom:.2rem;}
+  section{margin-bottom:3.6rem;}
+  h2{font-size:1.3rem;font-weight:600;margin-bottom:1rem;line-height:1.4;}
+  h2 .sec{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:.55rem;font-weight:600;}
+  h3{font-size:1.06rem;font-weight:600;margin:1.9rem 0 .7rem;}
+  h4{font-size:.98rem;font-weight:600;margin:1.3rem 0 .5rem;color:var(--ink-soft);}
+  p{margin-bottom:1rem;} p:last-child{margin-bottom:0;}
+  em{font-style:italic;} strong{font-weight:600;}
+  .math-block{background:var(--accent-bg);border-left:3px solid var(--accent);padding:.9rem 1.1rem;margin:1.2rem 0 1.4rem;overflow-x:auto;}
+  .derivation{border:1px solid var(--rule);border-left:3px solid var(--ink-soft);padding:1rem 1.2rem;margin:1.2rem 0 1.4rem;font-size:.95rem;overflow-x:auto;}
+  .derivation .dv-title{font-weight:600;font-size:.85rem;letter-spacing:.06em;color:var(--ink-soft);margin-bottom:.5rem;}
+  .intuition{background:var(--intuit-bg);border-left:3px solid var(--intuit);padding:.9rem 1.1rem;margin:1.2rem 0 1.4rem;font-size:.95rem;}
+  .intuition .iv-title{font-weight:600;font-size:.85rem;letter-spacing:.06em;color:var(--intuit);margin-bottom:.4rem;}
+  .expert{border:1px solid #d9cfb8;border-left:3px solid var(--expert);background:var(--expert-bg);padding:.9rem 1.1rem;margin:1.2rem 0 1.4rem;font-size:.95rem;}
+  .expert .ex-title{font-weight:600;font-size:.85rem;letter-spacing:.06em;color:var(--expert);margin-bottom:.4rem;}
+  .expert a{color:var(--expert);}
+  mjx-container[display="true"]{margin:.4rem 0 !important;overflow-x:auto;overflow-y:hidden;max-width:100%;}
+  .dg-h{font:600 13px "Source Serif 4",Georgia,serif;fill:#20211f;}
+  .dg-t{font:12px "Source Serif 4",Georgia,serif;fill:#20211f;}
+  .dg-s{font:11px "Source Serif 4",Georgia,serif;fill:#5a5c57;}
+  .dg-m{font:12px "SF Mono",Menlo,monospace;fill:#20211f;}
+  .dg-line{stroke:#20211f;stroke-width:1.4;fill:none;}
+  .dg-soft{stroke:#9a9c95;stroke-width:1;fill:none;}
+  .dg-acc{stroke:#37506d;stroke-width:1.8;fill:none;}
+  .dg-grn{stroke:#2e6b46;stroke-width:1.8;fill:none;}
+  .dg-amb{stroke:#8a6116;stroke-width:1.8;fill:none;}
+  .dg-fill{fill:#eef2f6;stroke:#37506d;stroke-width:1.2;}
+  .dg-shade{fill:#eef4f0;stroke:none;}
+  .dg-warn{fill:#faf7f0;stroke:none;}
+  figure.dg{margin:1.6rem 0 2rem;}
+  figure.dg figcaption b{color:#20211f;font-weight:600;}
+  code{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--code-bg);padding:.1em .35em;border-radius:3px;}
+  .note{border:1px solid var(--rule);padding:1rem 1.2rem;margin:1.4rem 0;font-size:.94rem;color:var(--ink-soft);}
+  .note b{color:var(--ink);font-weight:600;}
+  figure{margin:2rem 0;} figure > svg{width:100%;height:auto;display:block;}
+  figcaption mjx-container{font-size:1em;}
+  figcaption{font-size:.85rem;color:var(--ink-soft);margin-top:.7rem;line-height:1.6;}
+  table{width:100%;border-collapse:collapse;margin:1.4rem 0;font-size:.89rem;}
+  th,td{border-bottom:1px solid var(--rule);padding:.55rem .55rem;text-align:left;vertical-align:top;}
+  th{font-weight:600;border-bottom:2px solid var(--ink);}
+  ol.refs{margin-left:1.3rem;font-size:.92rem;color:var(--ink-soft);} ol.refs li{margin-bottom:.55rem;} ol.refs i{font-style:italic;}
+  ol.steps{margin:0 0 1rem 1.4rem;} ol.steps li{margin-bottom:.55rem;}
+  ul{margin:0 0 1rem 1.3rem;} li{margin-bottom:.5rem;}
+  a{color:var(--accent);}
+  @media (max-width:520px){html{font-size:16px;} article{padding-top:2.6rem;} header h1{font-size:1.5rem;}}
+  /* ---- sidebar TOC ---- */
+  .toc-side{position:fixed;top:0;left:0;width:215px;height:100vh;overflow-y:auto;padding:1.8rem .9rem 3rem 1.1rem;border-right:1px solid var(--rule);background:var(--paper);font-size:.82rem;line-height:1.5;z-index:20;}
+  .toc-side .toc-title{font-weight:600;font-size:.78rem;letter-spacing:.12em;color:var(--ink-soft);margin-bottom:.9rem;text-transform:uppercase;}
+  .toc-side ul{list-style:none;margin:0;padding:0;}
+  .toc-side > ul > li{margin:0 0 .55rem;}
+  .toc-side ul ul{margin:.25rem 0 .2rem .9rem;border-left:1px solid var(--rule);padding-left:.6rem;}
+  .toc-side ul ul li{margin:0 0 .18rem;}
+  .toc-side a{color:var(--ink-soft);text-decoration:none;display:block;padding:.1rem 0;}
+  .toc-side a.toc-l1{color:var(--ink);font-weight:600;}
+  .toc-side .toc-num{color:var(--accent);margin-right:.4rem;font-variant-numeric:tabular-nums;}
+  .toc-side a:hover{color:var(--accent);}
+  .toc-side a.active{color:var(--accent);}
+  .toc-side a.toc-l1.active{border-left:2px solid var(--accent);margin-left:-.7rem;padding-left:.55rem;}
+  .toc-toggle{display:none;position:fixed;top:.8rem;right:.8rem;z-index:30;background:var(--paper);border:1px solid var(--rule);color:var(--ink);font-family:inherit;font-size:.85rem;padding:.35rem .7rem;border-radius:4px;cursor:pointer;}
+  @media (min-width:760px){ article{margin-left:215px;max-width:none;padding-left:2.2rem;padding-right:2.2rem;} article > *{max-width:46rem;} .toc-toggle{display:none;} }
+  @media (min-width:1250px){ article{margin-left:calc(215px + (100% - 215px - 50rem)/2);max-width:50rem;padding-left:1.4rem;padding-right:1.4rem;} }
+  @media (max-width:759px){
+    .toc-side{transform:translateX(-100%);transition:transform .2s ease;box-shadow:none;}
+    body.toc-open .toc-side{transform:none;box-shadow:0 0 0 100vw rgba(32,33,31,.25);}
+    .toc-toggle{display:block;}
+  }
+  html{scroll-behavior:smooth;}
+  section[id], h3[id]{scroll-margin-top:1.2rem;}
+
+</style>
+</head>
+<body>
+<button class="toc-toggle" aria-label="목차 열기" onclick="document.body.classList.toggle('toc-open')">☰ 목차</button>
+<nav class="toc-side" aria-label="목차">
+  <div class="toc-title">차례</div>
+  <ul><li><a href="#s0" class="toc-l1"><span class="toc-num">§0</span>출발점 — K3와 다섯 축</a><ul><li><a href="#s0-1">0.1 숫자로 본 K3</a></li><li><a href="#s0-2">0.2 다섯 축과 한 장 요약</a></li><li><a href="#s0-3">0.3 로드맵 사용법</a></li></ul></li><li><a href="#s1" class="toc-l1"><span class="toc-num">§1</span>1단계 — 기초 체력</a><ul><li><a href="#s1-1">1.1 Attention Is All You Need</a></li><li><a href="#s1-2">1.2 Switch Transformer</a></li><li><a href="#s1-3">1.3 DeepSeekMoE</a></li><li><a href="#s1-4">1.4 DeepSeek-V2/V3 (MLA)</a></li></ul></li><li><a href="#s2" class="toc-l1"><span class="toc-num">§2</span>2단계 — 선형 어텐션 계보</a><ul><li><a href="#s2-1">2.1 Linear Attention</a></li><li><a href="#s2-2">2.2 Delta Rule / DeltaNet</a></li><li><a href="#s2-3">2.3 GLA &amp; Mamba-2</a></li><li><a href="#s2-4">2.4 Gated DeltaNet</a></li></ul></li><li><a href="#s3" class="toc-l1"><span class="toc-num">§3</span>3단계 — Kimi 계보</a><ul><li><a href="#s3-1">3.1 Muon &amp; Moonlight</a></li><li><a href="#s3-2">3.2 Kimi K1.5</a></li><li><a href="#s3-3">3.3 Kimi K2와 중간 세대</a></li><li><a href="#s3-4">3.4 Kimi Linear — KDA ★</a></li><li><a href="#s3-5">3.5 Attention Residuals ★</a></li></ul></li><li><a href="#s4" class="toc-l1"><span class="toc-num">§4</span>4단계 — Kimi K3 종합</a><ul><li><a href="#s4-1">4.1 아키텍처</a></li><li><a href="#s4-2">4.2 포지션·한계·사례</a></li><li><a href="#s4-3">4.3 종합 자기 점검</a></li></ul></li><li><a href="#s5" class="toc-l1"><span class="toc-num">§5</span>2026 프런티어 6대 트렌드</a></li><li><a href="#s6" class="toc-l1"><span class="toc-num">§6</span>5단계 — 가중치를 받은 다음</a><ul><li><a href="#s6-1">6.1 InstructGPT &amp; CAI</a></li><li><a href="#s6-2">6.2 DPO</a></li><li><a href="#s6-3">6.3 DeepSeek-R1 &amp; GRPO</a></li><li><a href="#s6-4">6.4 LoRA &amp; QLoRA</a></li><li><a href="#s6-5">6.5 Mooncake &amp; MX 포맷</a></li></ul></li><li><a href="#s7" class="toc-l1"><span class="toc-num">§7</span>용어 사전</a></li><li><a href="#s8" class="toc-l1"><span class="toc-num">§8</span>4주 진행 계획</a></li><li><a href="#s9" class="toc-l1"><span class="toc-num">§9</span>References</a></li></ul>
+</nav>
+<article>
+
+<header>
+  <h1>Kimi K3를 이해하는 가장 짧은 논문 경로<br>다섯 축으로 읽는 19편 로드맵</h1>
+  <p class="lede">2026년 7월 공개된 2.8조 파라미터 오픈 웨이트 모델 Kimi K3는 트랜스포머의 서로 다른 병목 다섯 개를 동시에 손봤습니다 — 시퀀스 축의 Kimi Delta Attention(KDA), 깊이 축의 Attention Residuals(AttnRes), 폭 축의 Stable LatentMoE, 그리고 학습 축(Per-Head Muon·Quantile Balancing)과 서빙 축(MXFP4 QAT·Mooncake). 이 문서는 그 다섯 축을 이해하는 데 꼭 필요한 논문 19편을 5단계로 배열한 스터디 로드맵을, 논문마다 "왜 이 논문이 경로에 있는가 → 핵심 주장 → 수식 → 자기 점검"의 순서로 다시 쓴 것입니다. 초록 블록은 직관, 회색 블록은 자기 점검 문답, 황갈 블록은 실전 조언입니다. 2026년 7월 기준으로 썼으며, K3 테크니컬 리포트(7월 27일 공개 예정)가 나오기 전까지 확인할 수 없는 사실에는 "리포트 확인 항목"을 붙였습니다.</p>
+</header>
+
+<section id="s0">
+  <h2><span class="sec">§0</span>출발점 — Kimi K3라는 목적지와 다섯 축</h2>
+  <p>2026년 7월 16일 Moonshot AI가 테크 블로그로 공개한 <strong>Kimi K3</strong>는 오픈 웨이트로는 최초의 3조급 모델입니다. 하지만 이 로드맵이 K3를 목적지로 삼은 이유는 규모가 아닙니다. K3는 표준 트랜스포머에서 10년 가까이 당연시되던 부품들 — 소프트맥스 어텐션, residual connection, 밀집 FFN — 을 각각 다른 부품으로 갈아 끼운, 말하자면 <em>아키텍처의 세대 교체를 한 몸에 모아 놓은</em> 모델이기 때문입니다. K3를 이해하는 과정은 곧 2020년대 중반 LLM 아키텍처 연구의 주요 갈래를 전부 한 번씩 통과하는 과정이 됩니다.</p>
+  <p>로드맵의 분량은 논문 19편, 예상 기간은 4주(주 4~5편)입니다. 최종 목표는 두 가지입니다. 첫째, K3 블로그에 등장하는 모든 고유명사 — KDA, AttnRes, Stable LatentMoE, Quantile Balancing, Per-Head Muon, SiTU, MXFP4 QAT, Mooncake — 를 출처 논문과 함께 설명할 수 있는 상태. 둘째, 테크니컬 리포트가 공개됐을 때 무엇을 먼저 펼쳐 확인할지 목록을 정해 둔 상태입니다.</p>
+
+  <h3 id="s0-1">0.1 숫자로 본 K3 — 스펙과 그 의미</h3>
+  <p>블로그가 공개한 핵심 숫자는 다음과 같습니다. 각 숫자가 무엇을 뜻하고 무엇을 뜻하지 <em>않는지</em>가 이 로드맵 전체에서 반복되는 주제이므로, 지금은 표만 눈에 익혀 두면 됩니다.</p>
+  <table>
+    <thead><tr><th>항목</th><th>값</th><th>의미</th></tr></thead>
+    <tbody>
+      <tr><td>총 파라미터</td><td>2.8T</td><td>오픈 웨이트 최초의 3조급 규모. 다만 §1.2에서 보듯 "총"과 "활성"은 전혀 다른 숫자입니다.</td></tr>
+      <tr><td>토큰당 활성 expert</td><td>16 / 896</td><td>Stable LatentMoE. 활성 비율 약 1.8%로, 연산은 활성 파라미터 규모에 비례합니다.</td></tr>
+      <tr><td>컨텍스트</td><td>1,048,576 토큰</td><td>네이티브 비전(이미지·비디오) 포함, 출시 시점에는 max thinking effort가 기본값.</td></tr>
+      <tr><td>정밀도</td><td>MXFP4 가중치 / MXFP8 활성</td><td>SFT 단계부터 QAT(양자화 인지 학습)로 학습.</td></tr>
+      <tr><td>스케일링 효율</td><td>K2 대비 약 2.5×</td><td>자체 보고 수치. §4.3에서 이 수치를 분해해 검증하는 법을 다룹니다.</td></tr>
+      <tr><td>레이어 패턴</td><td>KDA 3 : Gated MLA 1</td><td>하이브리드 어텐션. 전역(MLA) 레이어에는 위치 인코딩이 없습니다(NoPE).</td></tr>
+    </tbody>
+  </table>
+  <div class="note">
+    <p><b>이 숫자들의 출처는 전부 자사 블로그입니다.</b> 테크니컬 리포트와 가중치는 7월 27일 공개 예정이므로, 지금 시점의 K3 지식은 "발표된 주장"과 "논문으로 검증 가능한 부품"으로 나뉩니다. 이 로드맵의 §1–§3은 후자를, §4는 전자를 다루며, 검증 불가능한 대목마다 <em>리포트 확인 항목</em>이라 표시해 두었습니다.</p>
+  </div>
+
+  <h3 id="s0-2">0.2 다섯 축 — 이 로드맵의 좌표계</h3>
+  <p>이 문서의 모든 논문은 다섯 개의 축 가운데 하나 이상에 속합니다. <strong>시퀀스 축</strong>은 어텐션과 컨텍스트 길이의 문제(토큰들을 어떻게 섞는가), <strong>깊이 축</strong>은 residual과 레이어 사이 정보 흐름의 문제(수백 레이어를 어떻게 통과시키는가), <strong>폭 축</strong>은 MoE와 희소성의 문제(파라미터를 어떻게 늘리되 연산은 고정하는가), <strong>학습 축</strong>은 옵티마이저·RL·정렬의 문제(연산을 성능으로 얼마나 잘 바꾸는가), <strong>서빙 축</strong>은 양자화·캐시·인프라의 문제(굴리는 비용을 어떻게 낮추는가)입니다. K3는 다섯 축 각각에 새 부품을 하나씩 넣었습니다 — KDA, AttnRes, Stable LatentMoE, Per-Head Muon·Quantile Balancing, MXFP4 QAT·Mooncake.</p>
+  <figure class="dg">
+    <svg viewBox="0 0 720 344" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kimi K3 블록 구조 한 장 요약">
+      <defs><marker id="mk0a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6.5" markerHeight="6.5" orient="auto"><path style="fill:#37506d" d="M0,0 L8,4 L0,8 z"/></marker></defs>
+      <text class="dg-h" x="20" y="22">깊이 축 — Attention Residuals: 이전 레이어 출력을 선택적으로 검색</text>
+      <text class="dg-m" x="20" y="42">h_l = Σ α(i→l)·v_i,   α = softmax(w_l·norm(v_i))</text>
+      <path class="dg-acc" style="stroke-width:2.6;opacity:.9" d="M117,152 C117,72 635,72 635,150"/>
+      <path class="dg-acc" style="stroke-width:1.1;opacity:.4" d="M265,152 C265,94 635,94 635,150"/>
+      <path class="dg-acc" style="stroke-width:2;opacity:.65" d="M413,152 C413,114 635,114 635,150"/>
+      <path class="dg-acc" style="stroke-width:1;opacity:.35" d="M561,152 C561,132 635,132 635,150" marker-end="url(#mk0a)"/>
+      <text class="dg-s" x="650" y="98">선 굵기 =</text>
+      <text class="dg-s" x="650" y="112">학습된 α</text>
+      <rect class="dg-soft" x="20" y="156" width="52" height="56" rx="3"/>
+      <text class="dg-s" x="46" y="181" text-anchor="middle">EMBED</text>
+      <text class="dg-s" x="46" y="195" text-anchor="middle">+VISION</text>
+      <rect class="dg-fill" x="84" y="156" width="66" height="56" rx="3"/><text class="dg-t" x="117" y="189" text-anchor="middle">KDA</text>
+      <rect class="dg-fill" x="158" y="156" width="66" height="56" rx="3"/><text class="dg-t" x="191" y="189" text-anchor="middle">KDA</text>
+      <rect class="dg-fill" x="232" y="156" width="66" height="56" rx="3"/><text class="dg-t" x="265" y="189" text-anchor="middle">KDA</text>
+      <rect x="306" y="156" width="66" height="56" rx="3" style="fill:#faf7f0;stroke:#8a6116;stroke-width:1.2"/><text class="dg-t" x="339" y="182" text-anchor="middle">Gated</text><text class="dg-t" x="339" y="198" text-anchor="middle">MLA</text>
+      <rect class="dg-fill" x="380" y="156" width="66" height="56" rx="3"/><text class="dg-t" x="413" y="189" text-anchor="middle">KDA</text>
+      <rect class="dg-fill" x="454" y="156" width="66" height="56" rx="3"/><text class="dg-t" x="487" y="189" text-anchor="middle">KDA</text>
+      <rect class="dg-fill" x="528" y="156" width="66" height="56" rx="3"/><text class="dg-t" x="561" y="189" text-anchor="middle">KDA</text>
+      <rect x="602" y="156" width="66" height="56" rx="3" style="fill:#faf7f0;stroke:#8a6116;stroke-width:1.2"/><text class="dg-t" x="635" y="182" text-anchor="middle">Gated</text><text class="dg-t" x="635" y="198" text-anchor="middle">MLA</text>
+      <rect class="dg-soft" x="676" y="156" width="34" height="56" rx="3"/><text class="dg-s" x="693" y="188" text-anchor="middle">OUT</text>
+      <path class="dg-soft" d="M84,222 L84,230 L372,230 L372,222"/>
+      <text class="dg-t" x="228" y="248" text-anchor="middle">1 주기 = KDA ×3 : Gated MLA ×1 (전역 레이어는 NoPE)</text>
+      <text class="dg-h" x="20" y="282">폭 축 — Stable LatentMoE: 896개 expert 중 토큰당 16개만 활성</text>
+      <rect class="dg-shade" x="20" y="292" width="680" height="14" rx="3"/>
+      <rect x="20" y="292" width="12" height="14" rx="3" style="fill:#2e6b46"/>
+      <text class="dg-s" x="40" y="303">활성 16 (≈1.8%)</text>
+      <text class="dg-s" x="700" y="322" text-anchor="end">총 896 expert · Quantile Balancing 라우팅</text>
+      <text class="dg-s" x="20" y="340">시퀀스 축 — KDA: 고정 크기 상태 RNN, 디코딩 O(1) · Gated MLA: latent 압축 KV, 정밀 장거리 검색</text>
+    </svg>
+    <figcaption><b>도해 1 — K3 블록 구조 한 장 요약.</b> 가로 방향(레이어 순서)이 깊이 축이고, 각 블록 안에서 토큰들을 섞는 것이 시퀀스 축, 각 블록의 FFN을 896개 expert로 쪼갠 것이 폭 축입니다. 깊이 방향의 곡선은 AttnRes가 이전 레이어 출력을 학습된 가중치 α로 선택적으로 가져오는 것을 나타냅니다.</figcaption>
+  </figure>
+  <div class="intuition">
+    <div class="iv-title">직관 — 왜 "축"으로 읽는가</div>
+    <p>거대 모델 발표문을 통째로 이해하려 들면 고유명사의 홍수에 빠집니다. 그런데 트랜스포머의 비용과 성능은 서로 거의 독립적인 병목들로 분해됩니다 — 시퀀스가 길어질 때의 비용, 깊이가 깊어질 때의 정보 흐름, 폭을 늘릴 때의 연산, 학습의 연산→성능 전환율, 서빙의 토큰 단가. 새 부품 하나는 대개 이 중 정확히 한 축의 병목을 겨냥합니다. 그래서 낯선 용어를 만날 때마다 "이건 무슨 축의 어떤 병목을 푸는 부품인가?"라고 물으면, K3뿐 아니라 앞으로 나올 어떤 모델 발표든 같은 좌표계 위에서 읽을 수 있습니다. 축들이 서로 독립적이라는 것은 이득이 곱해질 수 있다는 뜻이기도 합니다 — K3의 "2.5× 스케일링 효율" 주장은 정확히 이 곱셈에 기대고 있고, 그 곱셈이 실제로 성립하는지가 리포트에서 확인할 핵심 질문입니다.</p>
+  </div>
+
+  <h3 id="s0-3">0.3 로드맵 사용법 — 단계, 별표, 확인 항목</h3>
+  <p>다섯 단계의 배열에는 순서의 논리가 있습니다. <strong>1단계(기초 체력)</strong>는 K3가 뜯어고친 부품들의 원형 — 소프트맥스 어텐션, 균일 누적 residual, MoE 라우팅 — 을 확보하는 단계입니다. 바뀐 것을 이해하려면 바뀌기 전을 알아야 하기 때문입니다. <strong>2단계(선형 어텐션 계보)</strong>는 KDA로 가는 5년의 계보를 하나의 식으로 꿰고, <strong>3단계(Kimi 계보)</strong>는 Moonshot이 자체 공개한 연구를 시간순으로 따라가며 K3의 부품들이 하나씩 검증되어 온 과정을 봅니다. <strong>4단계(종합)</strong>에서 부품을 K3라는 완성품으로 조립하고 트렌드를 정리하며, <strong>5단계(정렬·튜닝·서빙)</strong>는 "가중치를 받아서 무엇을 할 수 있나"에 답합니다.</p>
+  <p>각 논문에는 원문 링크, 발표 연도, 난이도(●○○ 하 / ●●○ 중 / ●●● 상), 예상 소요 시간, 정독할 섹션 범위, 그리고 속한 축을 적어 두었습니다. <strong>★ 표시가 붙은 두 편 — Kimi Linear(§3.4)와 AttnRes(§3.5) — 는 수식과 실험 설계까지 정독할 논문</strong>이고, 최종 목적지인 K3 블로그(§4)까지 합쳐 셋이 이 로드맵에서 대체 불가능한 부분입니다. 시간이 부족하면 나머지를 줄이고 이 셋에 예산을 몰아주세요.</p>
+  <div class="expert">
+    <div class="ex-title">전문가 관점 — 진행 방식이 이해를 가른다</div>
+    <p>각 절의 본문(핵심 요약)을 먼저 읽고 원문으로 넘어가세요. 그리고 원문을 덮은 뒤에는 <strong>회색 "자기 점검" 박스의 질문에 스스로 답해 본 다음</strong> 적힌 답과 대조하는 순서를 지키는 것이 중요합니다. 답을 펼쳐 놓고 읽으면 아는 것 같은 착각만 남습니다. 답이 막히는 항목이 그 논문에서 당신이 실제로 놓친 부분이고, 그 부분만 원문으로 되돌아가면 됩니다.</p>
+  </div>
+</section>
+
+<section id="s1">
+  <h2><span class="sec">§1</span>1단계 — 기초 체력: Transformer와 Sparse MoE (4편)</h2>
+  <p>K3가 "무엇을 바꿨는지" 이해하려면 표준 아키텍처를 먼저 알아야 합니다. K3가 뜯어고친 세 부품 — 어텐션의 \(O(n^2)\) 병목, 가중치 1의 균일 누적 residual, MoE 라우팅 — 의 원형이 이 단계의 네 논문 안에 모두 있습니다. 또한 K3의 전역 어텐션(MLA)과 MoE 설계는 DeepSeek 계열에서 왔으므로, DeepSeek의 두 논문이 이 단계의 후반을 차지합니다. 이 단계를 끝내면 "2.8T"라는 숫자가 무엇을 뜻하고 뜻하지 않는지, 그리고 K3가 손댄 세 부품이 원래 어떤 모양이었는지를 설명할 수 있게 됩니다.</p>
+  <div class="intuition">
+    <div class="iv-title">직관 — 새 모델은 diff로 읽는 것이 가장 빠르다</div>
+    <p>K3 같은 모델을 백지에서 이해하려면 막막하지만, "표준 트랜스포머 + 패치 다섯 개"로 보면 갑자기 감당 가능한 대상이 됩니다. 소프트웨어에서 커밋을 이해하려면 변경 전 코드를 알아야 하듯, 아키텍처 혁신도 원형과의 차이(diff)로 읽는 것이 가장 경제적입니다. 1단계의 네 논문은 그 diff의 기준선입니다. 여기서 확보해야 할 것은 세부 수식이 아니라 세 개의 그림입니다 — (1) 어텐션은 모든 토큰 쌍을 비교하는 내용 기반 검색이라는 그림, (2) residual은 모든 레이어 출력을 똑같은 무게로 쌓는 컨베이어라는 그림, (3) MoE는 연산이 아니라 파라미터를 늘리는 장치라는 그림. 이후 단계의 모든 논문이 이 세 그림 중 하나를 고치는 이야기입니다.</p>
+  </div>
+
+  <h3 id="s1-1">1.1 Attention Is All You Need — 모든 것의 출발점</h3>
+  <p><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arXiv:1706.03762</a> · 2017 · 난이도 ●○○ · 약 40분 · 정독 범위 §3.2–3.3, §5.4 · 축: 시퀀스·깊이</p>
+  <p>이 논문을 다시 읽는 이유는 분명합니다. K3가 갈아엎은 두 부품 — 소프트맥스 어텐션과 residual connection — 의 원형이 같은 논문 안에 있기 때문입니다. self-attention은 모든 토큰 쌍에 대해 \(QK^{\top}\) 유사도를 계산합니다. 그래서 학습 연산은 시퀀스 길이의 제곱으로 늘고, 디코딩 시에는 과거 토큰의 K·V를 보관하는 KV 캐시가 길이에 비례해 선형으로 자랍니다. multi-head는 표현 차원을 \(h\)개로 쪼개 서로 다른 부분공간에서 병렬 검색을 수행하는 장치인데, K3의 Per-Head Muon(헤드별 독립 최적화)과 Gated MLA(헤드별 선택성)가 정확히 이 "헤드"라는 단위에 다시 개입합니다.</p>
+  <div class="math-block">
+    $$\mathrm{Attention}(Q,K,V)=\operatorname{softmax}\!\left(\frac{QK^{\top}}{\sqrt{d_k}}\right)V,
+    \qquad h_{\ell}=h_{\ell-1}+f_{\ell}(h_{\ell-1})$$
+    <p>왼쪽이 \(n\times n\) 스코어 행렬을 만드는 소프트맥스 어텐션, 오른쪽이 가중치 1로 이전 출력을 균일 누적하는 residual connection입니다. K3는 전자를 KDA(§3.4)로, 후자를 AttnRes(§3.5)로 바꿉니다.</p>
+  </div>
+  <p>residual + LayerNorm 조합은 기울기가 항등 경로로 곧장 흐르게 해 깊은 모델의 학습을 가능하게 만든 장치입니다. 다만 한계도 둘 있습니다. 모든 레이어 출력을 가중치 1로 누적하므로 깊이가 커질수록 개별 레이어의 기여 비중이 희석되는 <em>feature dilution</em>, 그리고 PreNorm 구조에서 hidden state의 크기가 깊이에 따라 제한 없이 자라는 <em>노름 팽창</em>입니다. AttnRes 논문이 문제 삼는 지점이 정확히 이 둘입니다. 마지막으로 기억할 것은 <strong>위치 인코딩이 별도의 부품</strong>이라는 사실입니다. 어텐션 자체는 토큰 순서를 모르기 때문에 위치 정보를 따로 주입해야 하는데, Kimi Linear는 전역 레이어에서 이 부품을 아예 제거(NoPE)하고 위치 정보를 KDA에 위임합니다.</p>
+  <div class="intuition">
+    <div class="iv-title">직관 — "어텐션은 검색이다"라는 비유가 로드맵 전체를 관통한다</div>
+    <p>어텐션은 질의(Q)로 후보들(K)의 관련도를 매겨 값(V)을 가져오는 내용 기반 검색입니다. 이 비유 하나로 K3의 두 혁신을 모두 위치 지을 수 있습니다. KDA는 이 검색의 <em>후보 집합</em>을 "과거 토큰 전부"에서 "압축된 고정 크기 상태"로 바꾸고, AttnRes는 검색의 <em>축</em>을 토큰에서 레이어로 옮겨 "이전 레이어들의 출력 중 무엇을 가져올까"를 같은 방식으로 계산합니다. 하나의 부품을 두 방향으로 재사용한 셈입니다. 이 문장이 지금 당장 완전히 납득되지 않아도 괜찮습니다 — §3.4와 §3.5를 지나며 두 번 다시 만나게 됩니다.</p>
+  </div>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. 1M 토큰 컨텍스트에서 표준 어텐션이 비현실적인 이유는?</strong><br>
+    연산은 길이의 제곱, KV 캐시는 길이에 비례하기 때문입니다. \(n=10^6\)이면 토큰 쌍이 \(10^{12}\) 스케일입니다. FlashAttention 계열로 \(n\times n\) 행렬을 메모리에 펼치지 않을 수는 있어도 연산량 자체는 줄지 않고, 디코딩에서는 토큰 하나를 낼 때마다 100만 개의 KV를 다시 읽어야 해 메모리 대역폭이 병목이 됩니다. K3가 KDA를 도입한 직접적 동기입니다.</p>
+    <p><strong>Q2. residual connection의 역할은 무엇이고, 어떤 한계가 있나?</strong><br>
+    기울기가 항등 경로로 곧장 흐르게 해 깊은 모델 학습을 가능하게 합니다. 한계는 둘입니다. (1) feature dilution — 모든 레이어 출력을 가중치 1로 균일 누적하므로 깊이가 커질수록 개별 레이어의 기여 비중이 희석됩니다. (2) 노름 팽창 — PreNorm 구조에서 hidden state의 크기가 깊이에 따라 제한 없이 자랍니다. AttnRes 논문이 문제 삼는 지점이 정확히 이 둘입니다.</p>
+    <p><strong>Q3. "어텐션은 검색이다"라는 비유를 K3의 두 혁신에 각각 적용해 보라.</strong><br>
+    KDA는 검색의 후보 집합을 "과거 토큰 전부"에서 "압축된 고정 크기 상태"로 바꾸고, AttnRes는 검색의 축을 토큰에서 레이어로 옮겨 "이전 레이어들의 출력 중 무엇을 가져올까"를 같은 방식으로 계산합니다. 부품 하나를 두 방향으로 재사용한 것입니다.</p>
+  </div>
+
+  <h3 id="s1-2">1.2 Switch Transformer — Sparse MoE의 실용화</h3>
+  <p><a href="https://arxiv.org/abs/2101.03961" target="_blank" rel="noopener">arXiv:2101.03961</a> · 2021 · 난이도 ●○○ · 약 45분 · 정독 범위 §2, §5 · 축: 폭</p>
+  <p>Sparse MoE를 실용화한 논문입니다. "총 파라미터 ≠ 활성 파라미터"라는 K3 이해의 대전제와, K3가 없애려는 <em>민감한 균형 하이퍼파라미터</em>가 모두 여기서 시작합니다. 아이디어의 골격은 단순합니다. FFN을 여러 개의 expert로 복제해 두고, 라우터가 토큰마다 top-1 expert만 활성화합니다. 파라미터는 expert 수만큼 늘지만 토큰당 연산량은 expert 하나 분량으로 고정됩니다.</p>
+  <p>실무의 어려움은 두 장치에서 나옵니다. 첫째는 <strong>capacity factor</strong> — expert 하나가 한 배치에서 받을 수 있는 토큰 수의 상한입니다. 상한을 넘치면 토큰이 그냥 버려지는데(overflow drop), 이 값은 품질과 처리량을 동시에 좌우하는 실무 노브입니다. 둘째는 <strong>load balancing auxiliary loss</strong> — 라우팅 확률과 실제 할당량의 곱을 최소화해 특정 expert로의 쏠림을 막는 보조 손실입니다. 계수가 크면 품질이 떨어지고 작으면 라우팅이 붕괴합니다. K3의 Quantile Balancing이 제거하려는 "취약한 장치"가 바로 이것입니다. 이 논문은 또한 라우터의 수치 정밀도 문제(bf16에서의 불안정)를 처음 보고한 논문이기도 합니다 — K3가 MXFP4/MXFP8 QAT를 쓰면서도 라우팅을 안정화해야 하는 이유의 뿌리가 여기 있습니다.</p>
+  <div class="math-block">
+    $$\mathcal{L}_{\text{aux}}=\alpha\, N\sum_{i=1}^{N} f_i\, P_i$$
+    <p>\(N\)은 expert 수, \(f_i\)는 expert \(i\)에 실제로 배정된 토큰의 비율, \(P_i\)는 라우터가 \(i\)에 준 평균 확률입니다. 두 벡터의 내적은 배정이 균등할 때 최소가 되므로, 이 항을 손실에 더하면 쏠림이 벌점을 받습니다. 문제는 계수 \(\alpha\)입니다 — 스케일이 커질수록 이 계수의 튜닝이 어려워지고, 이후 계보(§1.4의 aux-loss-free, §4의 Quantile Balancing)는 전부 이 취약함을 없애려는 시도입니다.</p>
+  </div>
+  <div class="intuition">
+    <div class="iv-title">직관 — MoE 라우팅의 멘탈 모델</div>
+    <p>라우터는 토큰마다 expert들에 대한 점수를 매기고 상위 몇 개를 고르는 학습된 접수창구입니다. 이 구조의 어려움은 본질적으로 두 가지입니다. 첫째, "고른다"는 것은 이산적인 결정이라 미분이 매끄럽지 않고, 학습 신호가 선택된 expert에만 흐릅니다 — 그래서 한번 쏠리기 시작하면 쏠린 쪽만 좋아지는 부익부가 생깁니다. 둘째, 하드웨어는 균형을 요구합니다 — expert들이 서로 다른 GPU에 흩어져 있으므로, 부하가 한쪽에 몰리면 그 GPU가 전체 스텝을 지연시킵니다. MoE 라우팅의 역사는 "이산 선택 + 균형 제약"이라는 이 두 문제를 얼마나 부드럽고 하이퍼파라미터 없이 풀 것인가의 역사이고, Switch의 보조 손실 → V3의 bias 조정 → K3의 Quantile Balancing이 그 연대기입니다.</p>
+  </div>
+  <div class="note">
+    <p><b>흔한 오해 — MoE는 "메모리도 아낀다"가 아닙니다.</b> 연산은 활성 파라미터에 비례해 줄지만, 가중치는 전부 메모리에 올라가 있어야 합니다. 2.8T가 여전히 무거운 이유이고, K3가 MXFP4 4비트 가중치와 64개 이상 가속기 슈퍼노드를 권장하는 이유입니다.</p>
+  </div>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. K3는 2.8T 파라미터인데 왜 추론 연산은 그보다 훨씬 작은가?</strong><br>
+    MoE이기 때문입니다. K3는 896개 expert 중 토큰당 16개(약 1.8%)만 활성화합니다. 나머지 880개는 그 토큰의 계산에 관여하지 않으므로 연산은 활성 파라미터 규모에 비례합니다. 참고로 K2는 384개 중 8개로 약 32B 활성이었습니다. K3의 정확한 활성 파라미터 수는 미공개입니다 — <em>리포트 확인 항목</em>.</p>
+    <p><strong>Q2. 라우팅이 무너지면(expert collapse) 어떤 일이 생기나?</strong><br>
+    소수 expert에만 토큰이 몰려 그것만 학습되고 나머지는 죽은 파라미터가 됩니다. 게다가 분산 학습에서는 부하가 몰린 GPU가 스트래글러가 되어 전체 스텝이 느려집니다. 이를 막는 보조 손실과 계수는 스케일이 커질수록 튜닝이 어려워지는데, K3의 Quantile Balancing은 라우터 점수의 분위수에서 할당을 직접 유도해 휴리스틱 업데이트와 민감한 계수 자체를 없애려는 시도입니다.</p>
+    <p><strong>Q3. capacity factor와 토큰 드롭이 초대형 스케일에서 왜 골칫거리인가?</strong><br>
+    드롭을 피하려 capacity를 키우면 메모리와 통신량이 늘고, 줄이면 품질이 흔들립니다. 더 나쁜 것은 매 스텝 텐서 모양이 달라져 그래프 최적화와 통신 스케줄이 깨진다는 점입니다. K3가 "정적 shape + 임계 경로에 호스트 동기화 없음"을 갖춘 완전 균형 expert-parallel 학습법을 별도로 만든 이유가 여기에 있습니다.</p>
+  </div>
+
+  <h3 id="s1-3">1.3 DeepSeekMoE — 잘게 쪼개고 많이 두기</h3>
+  <p><a href="https://arxiv.org/abs/2401.06066" target="_blank" rel="noopener">arXiv:2401.06066</a> · 2024 · 난이도 ●○○ · 약 40분 · 정독 범위 §3 · 축: 폭</p>
+  <p>"expert를 잘게 쪼개고 많이 두는" fine-grained MoE의 원형입니다. 896-expert라는 K3의 초고희소 설계로 가는 징검다리이기도 합니다. 핵심 기법은 둘입니다. 첫째, <strong>fine-grained expert segmentation</strong> — expert 하나를 \(1/m\) 크기로 쪼개고 개수를 \(m\)배로 늘립니다. 활성 연산량은 그대로인데 활성 조합의 경우의 수가 폭증해, 토큰 특성별 전문화가 훨씬 정교해집니다. 둘째, <strong>shared expert isolation</strong> — 모든 토큰이 반드시 통과하는 공용 expert를 따로 둡니다. 공통 지식이 라우팅 expert마다 중복 학습되는 낭비를 제거하는 장치입니다.</p>
+  <div class="math-block">
+    $$\text{활성 조합의 수}=\binom{N}{K}:\qquad \binom{384}{8}\approx 10^{16},\qquad \binom{896}{16}\approx 10^{34}$$
+    <p>큰 expert 8개를 통째로 두면 경로가 8가지뿐이지만, 작게 쪼개 조합으로 고르면 경우의 수가 천문학적으로 늘어납니다. 왼쪽이 Kimi K2(384 중 8), 오른쪽이 K3(896 중 16)입니다. 계보로 보면 희소성은 계속 극단으로 가고 있습니다 — DeepSeekMoE(64급) → DeepSeek-V3(256) → Kimi K2(384) → Kimi K3(896).</p>
+  </div>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. expert를 크게 몇 개 두는 것보다 작게 많이 두는 것이 유리한 이유는?</strong><br>
+    같은 활성 연산량에서 표현 가능한 조합의 수가 비교할 수 없이 커지기 때문입니다. 큰 expert 8개는 8가지 경로뿐이지만, 작은 expert 896개에서 16개를 고르면 사실상 무한한 조합이 생깁니다. 토큰 특성별 전문화가 그만큼 세밀해집니다. K2(384) → K3(896)는 이 방향을 한 번 더 밀어붙인 것입니다.</p>
+    <p><strong>Q2. 그렇다면 희소성은 무한정 올리면 되나? 무엇이 나빠지나?</strong><br>
+    세 가지가 나빠집니다. (1) expert 하나가 받는 토큰이 적어져 학습 신호가 희박해지고, (2) GPU 입장에서 배치가 잘게 쪼개져 행렬 곱 효율이 떨어지며, (3) expert-parallel 환경에서 all-to-all 통신 비중이 커집니다. K3가 라우팅 안정화(Quantile Balancing)와 통신 설계(정적 shape 균형 EP)를 아키텍처와 같은 무게로 다루는 이유입니다.</p>
+    <p><strong>Q3. shared expert가 있는 구조에서 파인튜닝을 한다면 어디를 건드려야 할까?</strong><br>
+    공통 지식은 shared expert에, 도메인 특성은 라우팅 expert에 나뉘어 있을 가능성이 큽니다. 그래서 (1) 라우터를 얼리고 shared 쪽만 손대면 보수적이고, (2) 라우터까지 학습시키면 분포 이동이 커집니다. 실무에서는 어텐션 투사 행렬에 LoRA를 붙이는 편이 가장 안전한 출발점입니다 — §6.4에서 다룹니다.</p>
+  </div>
+
+  <h3 id="s1-4">1.4 DeepSeek-V2 (MLA) &amp; DeepSeek-V3 — K3 전역 어텐션의 원형</h3>
+  <p><a href="https://arxiv.org/abs/2405.04434" target="_blank" rel="noopener">arXiv:2405.04434</a> / <a href="https://arxiv.org/abs/2412.19437" target="_blank" rel="noopener">arXiv:2412.19437</a> · 2024 · 난이도 ●●○ · 약 90분 · 정독 범위 V2 §2.1, V3 §2·§4 · 축: 시퀀스·폭</p>
+  <p>K3의 전역 어텐션 레이어가 바로 MLA — 정확히는 그 게이트 버전 — 입니다. 그리고 V3는 Kimi Linear와 K3가 딛고 선 초대형 MoE 학습 레시피의 사실상 표준입니다. <strong>MLA(Multi-head Latent Attention)</strong>는 K와 V를 저차원 latent 벡터로 압축해 그것만 캐시에 저장합니다. 추론 시에는 복원 행렬을 Q·O 투사에 흡수시켜 별도의 복원 연산 없이 작동하므로, 캐시는 작아지면서 품질은 MHA급을 유지합니다. 단, latent 압축과 회전 위치 인코딩(RoPE)은 수학적으로 충돌하기 때문에 위치 전용 헤드를 따로 분리하는 <strong>decoupled RoPE</strong>가 필요했습니다 — Kimi Linear는 이 복잡도를 NoPE로 아예 우회합니다.</p>
+  <p><strong>V3</strong>에서 기억할 것은 학습 레시피입니다. 보조 손실 대신 expert별 bias만 관측 부하에 따라 조정하는 aux-loss-free 부하 균형, Multi-Token Prediction, FP8 학습, DualPipe 파이프라인 — 이후 오픈 모델들의 공통 출발점이 된 조합입니다. K3는 여기서 한 걸음 더 나아가 <strong>Gated MLA</strong>를 씁니다. 어텐션 출력에 게이트를 걸어 선택성을 높인 변형으로, 전역 레이어 수가 1/4뿐인 하이브리드에서 레이어 하나당 밀도를 올리는 장치입니다.</p>
+  <div class="intuition">
+    <div class="iv-title">직관 — MLA와 KDA는 같은 문제의 다른 답이다</div>
+    <p>둘 다 "KV 캐시가 너무 크다"에서 출발하지만 답의 종류가 다릅니다. MLA는 full attention을 유지한 채 KV를 압축합니다 — 캐시는 여전히 길이에 비례해 자라고, 절약은 상수 배입니다. KDA는 어텐션을 고정 크기 상태의 RNN으로 바꿉니다 — 캐시가 길이와 무관해지므로 차수 자체가 바뀝니다. 그래서 이 둘은 경쟁 관계가 아니라 분업 관계가 될 수 있습니다. K3의 하이브리드는 "3/4은 KDA로 차수를 없애고, 남은 1/4의 전역 레이어도 MLA로 상수 배를 줄이는" 이중 절약 구조입니다.</p>
+  </div>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. K3는 왜 전역 어텐션 레이어로 표준 MHA가 아닌 MLA를 쓰나?</strong><br>
+    하이브리드에서 전역 레이어는 1/4뿐이지만, 1M 컨텍스트에서는 그 1/4의 KV 캐시조차 큽니다. MLA는 KV를 latent로 압축하므로 "KDA로 3/4을 없애고, 남은 1/4도 MLA로 줄이는" 이중 절약이 됩니다. 하이브리드의 75% 절감과 MLA의 압축률이 곱해지는 구조입니다.</p>
+    <p><strong>Q2. MLA와 KDA의 접근 방식 차이를 한 문장으로 요약하면?</strong><br>
+    MLA는 full attention을 유지한 채 KV를 압축하는 것이고(캐시는 여전히 길이에 비례), KDA는 어텐션을 고정 크기 상태의 RNN으로 바꿔 캐시를 길이와 무관하게 만드는 것입니다. 전자는 상수 배 절약, 후자는 차수 자체를 바꿉니다.</p>
+    <p><strong>Q3. V3의 aux-loss-free 균형과 K3의 Quantile Balancing은 어떻게 다른가?</strong><br>
+    V3는 보조 손실을 없앤 대신 expert별 bias를 관측된 부하에 따라 휴리스틱하게 증감시킵니다 — 조정 규칙과 보폭이 여전히 하이퍼파라미터입니다. K3의 Quantile Balancing은 라우터 점수의 분위수에서 할당을 직접 유도해, 그 휴리스틱 업데이트와 민감한 하이퍼파라미터를 한 번에 없앴다고 주장합니다. 16/896처럼 극단적인 희소성에서는 이 차이가 안정성을 가릅니다.</p>
+    <p><strong>Q4. MLA 레이어에서 위치 인코딩을 없애도(NoPE) 괜찮은 이유는?</strong><br>
+    하이브리드에서는 KDA 레이어의 감쇠 게이트가 이미 거리 정보를 담고 있기 때문입니다. 게이트 곱이 거리에 따라 지수적으로 줄어드는 형태라 상대 위치 바이어스 역할을 합니다. 그래서 전역 레이어는 위치 부담을 벗고 순수 검색에 집중할 수 있고, 덤으로 추론 시 효율적인 MQA로 변환하기 쉬워집니다.</p>
+  </div>
+</section>
+
+<section id="s2">
+  <h2><span class="sec">§2</span>2단계 — 선형 어텐션 계보: KDA로 가는 길 (4편)</h2>
+  <p>KDA는 갑자기 나온 것이 아니라 <strong>"선형화 → 오류 수정(delta) → 망각 게이트 → 게이트 해상도"</strong>라는 5년의 계보 위에 있습니다. 이 순서대로 읽으면 KDA 수식이 새로운 것 없이 읽힙니다. 더 강하게 말하면, 이 단계의 네 논문은 사실 <em>같은 하나의 식</em>에서 전이 행렬 \(A_t\)의 모양만 다릅니다.</p>
+  <div class="math-block">
+    $$S_t = S_{t-1}A_t + \beta_t\, v_t k_t^{\top},\qquad o_t = S_t\, q_t$$
+    <p>상태 행렬 \(S\)는 지금까지의 (key, value) 쌍들을 겹쳐 담은 고정 크기 메모리이고, \(A_t\)는 매 스텝 "기존 기억을 어떻게 손볼 것인가"를 정하는 전이 행렬, \(\beta_t v_t k_t^{\top}\)는 새 기억의 기입, \(o_t = S_t q_t\)는 질의에 의한 조회입니다. 이 골격 위에서 각 논문의 위치는 아래 표 한 장으로 정리됩니다.</p>
+  </div>
+  <table>
+    <thead><tr><th>\(A_t\)의 모양</th><th>논문 (연도)</th><th>뜻</th></tr></thead>
+    <tbody>
+      <tr><td>\(I\)</td><td>Linear Attention (2020)</td><td>지우지도 고치지도 않는 순수 누적</td></tr>
+      <tr><td>\(I-\beta_t k_t k_t^{\top}\)</td><td>DeltaNet (2021 / 병렬화 2024)</td><td>같은 key의 옛 값을 지우고 고쳐 쓰기 — delta rule</td></tr>
+      <tr><td>\(a_t I\)</td><td>Mamba-2 (2024)</td><td>헤드당 스칼라 하나로 균일하게 잊기</td></tr>
+      <tr><td>\(\operatorname{Diag}(\alpha_t)\)</td><td>GLA (2023)</td><td>채널마다 다른 속도로 잊기</td></tr>
+      <tr><td>\(\alpha_t\bigl(I-\beta_t k_t k_t^{\top}\bigr)\)</td><td>Gated DeltaNet (2024)</td><td>잊으면서(헤드 단위) 고쳐 쓰기</td></tr>
+      <tr><td>\(\operatorname{Diag}(\alpha_t)-\beta_t k_t k_t^{\top}\)</td><td>KDA (2025, §3.4)</td><td>잊으면서(채널 단위) 고쳐 쓰기</td></tr>
+    </tbody>
+  </table>
+  <div class="note">
+    <p><b>표기 관례 주의.</b> 논문마다 상태를 \(\sum \phi(k)v^{\top}\)(즉 \(d_k\times d_v\))로 쓰기도 하고 \(\sum vk^{\top}\)(즉 \(d_v\times d_k\))로 쓰기도 하며, 전이 행렬을 왼쪽에 곱하기도 오른쪽에 곱하기도 합니다. 전부 전치 방향의 차이일 뿐 같은 내용입니다. 이 문서는 KDA 계열 논문의 관례를 따라 \(S\in\mathbb{R}^{d_v\times d_k}\), 전이 행렬 오른쪽 곱으로 통일했습니다. 원문을 오갈 때 기호가 어긋나 보이면 먼저 이 관례 차이를 의심하세요.</p>
+  </div>
+  <figure class="dg">
+    <svg viewBox="0 0 720 272" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="선형 어텐션 계보도">
+      <defs>
+        <marker id="mk2a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6.5" markerHeight="6.5" orient="auto"><path style="fill:#9a9c95" d="M0,0 L8,4 L0,8 z"/></marker>
+        <marker id="mk2b" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6.5" markerHeight="6.5" orient="auto"><path style="fill:#37506d" d="M0,0 L8,4 L0,8 z"/></marker>
+      </defs>
+      <rect class="dg-soft" x="10" y="106" width="150" height="60" rx="3"/>
+      <text class="dg-h" x="85" y="130" text-anchor="middle">Linear Attention</text>
+      <text class="dg-m" x="85" y="150" text-anchor="middle">2020 · A = I</text>
+      <rect class="dg-soft" x="215" y="18" width="180" height="66" rx="3"/>
+      <text class="dg-h" x="305" y="42" text-anchor="middle">DeltaNet</text>
+      <text class="dg-m" x="305" y="60" text-anchor="middle">A = I − βkk&#x1D40;</text>
+      <text class="dg-s" x="305" y="76" text-anchor="middle">2021 · 병렬화 2024</text>
+      <rect class="dg-soft" x="215" y="188" width="180" height="66" rx="3"/>
+      <text class="dg-h" x="305" y="212" text-anchor="middle">GLA / Mamba-2</text>
+      <text class="dg-m" x="305" y="230" text-anchor="middle">A = Diag(α) / aI</text>
+      <text class="dg-s" x="305" y="246" text-anchor="middle">2023–24</text>
+      <rect class="dg-soft" x="450" y="106" width="160" height="60" rx="3"/>
+      <text class="dg-h" x="530" y="130" text-anchor="middle">Gated DeltaNet</text>
+      <text class="dg-m" x="530" y="150" text-anchor="middle">A = α(I − βkk&#x1D40;)</text>
+      <rect class="dg-fill" x="648" y="100" width="62" height="72" rx="3"/>
+      <text class="dg-h" x="679" y="126" text-anchor="middle">KDA</text>
+      <text class="dg-s" x="679" y="142" text-anchor="middle">Diag(α)</text>
+      <text class="dg-s" x="679" y="156" text-anchor="middle">− βkk&#x1D40;</text>
+      <path class="dg-soft" d="M160,122 C185,110 190,70 209,58" marker-end="url(#mk2a)"/>
+      <path class="dg-soft" d="M160,150 C185,162 190,202 209,214" marker-end="url(#mk2a)"/>
+      <path class="dg-soft" d="M395,58 C425,70 425,110 444,122" marker-end="url(#mk2a)"/>
+      <path class="dg-soft" d="M395,214 C425,202 425,162 444,150" marker-end="url(#mk2a)"/>
+      <path class="dg-acc" d="M610,136 L642,136" marker-end="url(#mk2b)"/>
+      <text class="dg-s" x="184" y="34">쓰기를 정밀하게 — 오차만큼만 고쳐 쓰기</text>
+      <text class="dg-s" x="184" y="270">지우기를 정밀하게 — 망각 게이트</text>
+      <text class="dg-s" x="614" y="188">게이트 해상도를</text>
+      <text class="dg-s" x="614" y="202">채널 단위로</text>
+    </svg>
+    <figcaption><b>도해 2 — 선형 어텐션 계보.</b> 순수 누적(2020)에서 두 갈래 — 정밀한 쓰기(delta rule)와 정밀한 지우기(게이트) — 가 갈라져 나와 Gated DeltaNet에서 합류하고, KDA는 거기서 게이트 해상도를 채널 단위로 올린 것입니다. 모든 변화는 전이 행렬 \(A_t\)의 모양 하나에 요약됩니다.</figcaption>
+  </figure>
+  <div class="intuition">
+    <div class="iv-title">직관 — 고정 크기 화이트보드라는 그림</div>
+    <p>선형 어텐션의 상태 \(S\)는 크기가 정해진 화이트보드입니다. 단순 누적(\(A=I\))은 지우개 없이 계속 겹쳐 쓰는 것이라, 쓰다 보면 글씨가 뭉개져 알아볼 수 없게 됩니다. delta rule은 같은 자리에 새로 쓸 때 <em>먼저 그 자리를 지우고</em> 쓰는 것이고, 망각 게이트는 오래된 글씨가 시간이 지나면 <em>저절로 흐려지게</em> 하는 것입니다. 게이트 해상도를 올린다는 것은 보드의 칸마다 흐려지는 속도를 다르게 정할 수 있게 한다는 뜻입니다. 이 그림 하나를 잡고 있으면 이 단계의 네 논문이 각각 화이트보드 관리법의 어떤 개선인지가 한 이야기로 읽히고, 이 단계를 끝내면 임의의 선형 어텐션 논문을 만나도 "이건 \(A_t\)가 무슨 모양이지?"라는 한 가지 질문으로 위치를 잡을 수 있습니다.</p>
+  </div>
+
+  <h3 id="s2-1">2.1 Transformers are RNNs — 선형화라는 출발선</h3>
+  <p><a href="https://arxiv.org/abs/2006.16236" target="_blank" rel="noopener">arXiv:2006.16236</a> · 2020 · 난이도 ●●○ · 약 50분 · 정독 범위 §3.1–3.3 · 축: 시퀀스</p>
+  <p>softmax를 제거하면 어텐션이 고정 크기 상태를 가진 RNN으로 다시 쓰인다는 핵심 통찰을 제시한, 이후 모든 논문의 출발선입니다. \(\operatorname{softmax}(QK^{\top})V\)를 \((\phi(Q)\phi(K)^{\top})V\)로 바꾸면 행렬 곱의 결합법칙이 성립합니다. 그러면 \(\phi(K)^{\top}V\)를 먼저 계산할 수 있고, \(n\times n\) 스코어 행렬이 아예 등장하지 않습니다. 그 결과 상태 행렬 \(S=\sum\phi(k)v^{\top}\)를 누적하는 RNN이 됩니다. 상태 크기는 \(d_k\times d_v\)로 시퀀스 길이와 무관하게 고정입니다.</p>
+  <div class="math-block">
+    $$S_t=S_{t-1}+\phi(k_t)\,v_t^{\top},\qquad
+    o_t=\frac{\phi(q_t)^{\top}S_t}{\phi(q_t)^{\top}z_t},\quad z_t=\sum_{i\le t}\phi(k_i)$$
+    <p>\(S\)는 \(d_k\times d_v\)의 고정 크기입니다 — 이것이 "KV 캐시 없음"의 정확한 의미입니다. \(\phi\)는 커널 특징 함수로, 무엇을 쓰느냐가 초기 연구의 주요 쟁점이었으나 이후 계보의 관심은 \(\phi\)보다 상태 갱신 규칙 쪽으로 옮겨갑니다.</p>
+  </div>
+  <p>디코딩은 토큰당 연산 \(O(1)\)이고 KV 캐시가 없습니다. 대신 학습에서는 시간 방향의 순차 의존이 생기는데, 이는 <strong>chunkwise</strong> 방식 — 청크 내부는 어텐션처럼 병렬로 계산하고 청크 사이만 상태를 전달 — 으로 GPU를 채워 해결합니다. 이 기법은 이후 계보 전체에서 선형 어텐션 실용화의 표준이 됩니다.</p>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. 선형 어텐션의 근본적인 약점은?</strong><br>
+    고정 크기 상태에 무한한 과거를 욱여넣어야 한다는 점입니다. 저장하려는 (key, value) 쌍의 수가 상태 용량을 넘으면 서로 간섭하며 뭉개지고, 특히 정확한 장거리 검색(예: 80만 토큰 앞의 특정 변수명 회수)에서 급격히 무너집니다. 이후 연구의 게이트·delta rule과 K3의 3:1 하이브리드가 모두 이 약점을 겨냥합니다.</p>
+    <p><strong>Q2. "KV 캐시가 없다"는 말의 정확한 의미는?</strong><br>
+    과거 토큰의 K와 V를 개별적으로 보관하지 않고, 그것들을 하나의 상태 행렬 \(S\)에 겹쳐 누적한다는 뜻입니다. 컨텍스트가 1천이든 100만이든 메모리는 동일합니다. 대신 "다 담을 수는 없다"가 대가입니다 — 무손실 저장이 아니라 손실 압축이라고 이해하는 편이 정확합니다.</p>
+    <p><strong>Q3. 디코딩이 \(O(1)\)이라는 사실이 왜 RL 시대에 특히 중요한가?</strong><br>
+    추론 RL의 비용은 대부분 rollout 생성에서 나옵니다. 긴 사고 사슬을 수천 개씩 뽑아야 하는데, full attention이면 생성이 길어질수록 토큰당 비용이 계속 올라갑니다. \(O(1)\) 디코딩은 이 곡선을 평평하게 만들어 같은 예산에서 더 길고 더 많은 rollout을 가능하게 합니다. K3가 "max thinking effort 기본값"을 감당하는 경제적 근거입니다.</p>
+  </div>
+
+  <h3 id="s2-2">2.2 Fast Weight Programmers — delta rule, 정밀한 쓰기</h3>
+  <p><a href="https://arxiv.org/abs/2102.11174" target="_blank" rel="noopener">arXiv:2102.11174</a> (+ 병렬화 <a href="https://arxiv.org/abs/2406.06484" target="_blank" rel="noopener">arXiv:2406.06484</a>) · 2021·2024 · 난이도 ●●● · 약 70분 · 정독 범위 §3, 병렬화 논문 §3 · 축: 시퀀스</p>
+  <p>KDA의 "Delta"가 여기서 옵니다. 상태에 무작정 더하는 대신, 새 (k, v)를 쓰기 전에 상태에서 그 key로 조회되는 <em>현재 값을 먼저 읽고</em> 목표값과의 차이만큼만 고쳐 씁니다 — 전형적인 오류 수정 학습 규칙(delta rule)입니다. 같은 key에 새 value가 오면 자연스럽게 덮어쓰기가 됩니다. 단순 누적형이 과거 값을 계속 끌고 가며 간섭을 일으키는 것과 대비되어, 연상 기억(associative recall) 성능이 크게 올라갑니다.</p>
+  <div class="math-block">
+    $$S_t=S_{t-1}+\beta_t\,\bigl(v_t-S_{t-1}k_t\bigr)\,k_t^{\top}
+    =S_{t-1}\bigl(I-\beta_t k_t k_t^{\top}\bigr)+\beta_t\, v_t k_t^{\top}$$
+    <p>첫 등식이 "읽고 → 오차만큼 고쳐 쓰기"이고, 정리하면 전이 행렬이 항등 − 랭크1(Householder 형태)임이 드러납니다. 이 관점이 이후 모든 변형을 한 지도 위에 놓는 열쇠입니다.</p>
+  </div>
+  <p>이 규칙은 오래 잠들어 있다가 2024년 Yang et al.의 병렬 DeltaNet(arXiv:2406.06484)이 WY 표현 기반 chunkwise 알고리즘으로 시퀀스 방향 병렬 학습을 가능하게 하면서 실전에 투입됐습니다. 업데이트가 이전 상태를 읽어야 계산되는 순차 의존 때문에 GPU 병렬화가 막혀 있었는데, 청크 안의 \((I-\beta k k^{\top})\) 곱들을 WY 표현으로 접어 하나의 행렬 곱으로 환원한 것입니다. KDA의 전용 chunkwise 커널은 이 계열의 발전형입니다.</p>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. 단순 누적(\(S \mathrel{+}= vk^{\top}\)) 대비 delta rule의 장점은?</strong><br>
+    누적형은 같은 key에 대한 과거 값이 상태에 계속 남아 간섭을 일으킵니다. delta rule은 예측 오차만큼만 수정하므로 이미 잘 저장된 것은 건드리지 않고, 바뀐 것만 갱신합니다. 결과적으로 같은 크기의 고정 메모리를 훨씬 효율적으로 사용합니다.</p>
+    <p><strong>Q2. delta rule의 병렬화가 왜 어려웠고, 어떻게 해결됐나?</strong><br>
+    업데이트가 이전 상태를 읽어야 계산되므로 시간 방향으로 순차 의존이 생겨 GPU 병렬화가 막혔습니다. 2024년 병렬 DeltaNet이 청크 안의 \((I-\beta kk^{\top})\) 곱들을 WY 표현으로 접어 하나의 행렬 곱으로 환원하면서 해결됐습니다.</p>
+    <p><strong>Q3. "전이 행렬 \(A_t\)의 모양"이라는 관점이 왜 유용한가?</strong><br>
+    모든 선형 어텐션 변형을 하나의 축 위에 세워주기 때문입니다. \(A_t\)가 단순할수록(스칼라) 커널이 빠르고, 복잡할수록(대각+저랭크) 표현력이 큽니다. KDA의 기여는 "표현력이 큰 쪽에서, 일반 DPLR보다 훨씬 싼 특수형을 찾아냈다"로 요약됩니다. 이 관점 없이 KDA 수식을 보면 임의의 복잡한 식처럼 보입니다.</p>
+  </div>
+
+  <h3 id="s2-3">2.3 GLA &amp; Mamba-2 — 망각 게이트의 두 갈래</h3>
+  <p><a href="https://arxiv.org/abs/2312.06635" target="_blank" rel="noopener">arXiv:2312.06635</a> / <a href="https://arxiv.org/abs/2405.21060" target="_blank" rel="noopener">arXiv:2405.21060</a> · 2023–24 · 난이도 ●●● · 약 90분 · 정독 범위 GLA §3, Mamba-2 §3·§6 · 축: 시퀀스</p>
+  <p>"망각 게이트"의 두 갈래입니다. <strong>GLA</strong>는 데이터 의존적 게이트 \(\alpha\in(0,1)^d\)로 상태를 feature 차원마다 다른 속도로 감쇠시킵니다. 세밀하지만, 매 스텝 대각 행렬 곱이 끼어들어 커널이 무거워집니다. <strong>Mamba-2(SSD)</strong>는 상태공간 모델과 선형 어텐션이 같은 대상의 두 표기임을 정리한 뒤, 감쇠를 헤드당 스칼라 하나로 단순화합니다. 스칼라는 청크 밖으로 빼낼 수 있어 Tensor Core 활용이 극대화됩니다. 즉 이 둘은 <strong>표현력 ↔ 하드웨어 효율</strong> 트레이드오프의 양 끝점이고, KDA의 목표는 "GLA의 해상도를 Mamba-2의 속도로"입니다.</p>
+  <p>또 하나 중요한 관찰이 있습니다. 감쇠 게이트의 누적 곱은 거리에 따라 지수적으로 줄어드는 가중치가 됩니다. 즉 게이트는 <em>학습되는 상대 위치 정보</em>의 역할도 합니다. Kimi Linear가 전역 레이어에서 위치 인코딩을 뺄 수 있는(NoPE) 근거가 바로 이것입니다.</p>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. 망각 게이트가 없으면 고정 상태 메모리에 어떤 문제가 생기나?</strong><br>
+    과거 정보가 지워지지 않고 계속 쌓여 상태가 포화됩니다. 상태 노름이 커지면서 최근 입력의 기여가 상대적으로 묻히고, 오래전의 무관한 정보가 조회 결과를 오염시킵니다. 게이트는 "무엇을 언제 잊을지"를 학습시켜 제한된 메모리를 현재 문맥에 맞게 재배분합니다.</p>
+    <p><strong>Q2. 채널 단위 게이트가 헤드 단위보다 유리한 지점은?</strong><br>
+    헤드 단위는 노브 하나로 헤드 전체를 감쇠시키지만, 채널 단위는 차원마다 독립적인 망각 속도를 둡니다. 어떤 차원은 문서 전체에 걸쳐 유지하고(예: 문서 주제), 어떤 차원은 문장마다 갱신하는(예: 직전 토큰의 구문 역할) 식의 정밀 제어가 가능해집니다. 같은 상태 크기에 더 많은 것을 담는 방법입니다.</p>
+    <p><strong>Q3. 게이트 해상도를 올리면 왜 커널 작성이 어려워지나?</strong><br>
+    스칼라 감쇠는 청크 전체에 공통 계수로 빼낼 수 있어 계산이 큰 행렬 곱 하나로 접힙니다. 반면 채널별 대각 감쇠는 스텝마다 다른 대각 행렬이 끼어들어 그 접기가 안 됩니다. 순진하게 구현하면 Tensor Core를 못 쓰고 메모리 대역폭에 묶입니다. KDA가 DPLR 특수형 전용 chunkwise 커널을 새로 짠 이유가 정확히 이것입니다.</p>
+  </div>
+
+  <h3 id="s2-4">2.4 Gated DeltaNet — KDA의 직접적 전신</h3>
+  <p><a href="https://arxiv.org/abs/2412.06464" target="_blank" rel="noopener">arXiv:2412.06464</a> · 2024 · 난이도 ●●○ · 약 50분 · 정독 범위 §3 · 축: 시퀀스</p>
+  <p>delta rule(정밀한 쓰기)과 게이팅(정밀한 지우기)을 결합한, KDA의 직접적 전신입니다. "지우면서 고쳐 쓰는" 메모리는 둘 중 하나만 있을 때보다 연상 회상과 장문 성능이 모두 개선됩니다. 이 논문은 또한 하이브리드(선형 + 주기적 전역 어텐션) 구성이 순수 선형보다 안정적으로 낫다는 결과를 제시했고 — Kimi Linear가 GDN-H를 주요 비교 대상으로 삼는 이유입니다 — Qwen3-Next 등 실제 오픈 모델에 채택되며 계보 전체의 실전 검증대 역할을 했습니다. 남은 한계는 감쇠 \(\alpha\)가 헤드당 스칼라(coarse)라는 점이고, KDA가 정확히 이 지점을 채널 벡터로 승격시킵니다.</p>
+  <div class="math-block">
+    $$A_t^{\text{GDN}}=\alpha_t\bigl(I-\beta_t k_t k_t^{\top}\bigr),\ \ \alpha_t\in\mathbb{R}
+    \qquad\longrightarrow\qquad
+    A_t^{\text{KDA}}=\operatorname{Diag}(\alpha_t)-\beta_t k_t k_t^{\top},\ \ \alpha_t\in(0,1)^{d}$$
+    <p>Gated DeltaNet에서 KDA로 넘어갈 때 바뀌는 것은 이 한 곳 — 망각 게이트가 스칼라에서 \(d\)차원 벡터로 — 뿐입니다.</p>
+  </div>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. Gated DeltaNet → KDA로 넘어갈 때 바뀐 것을 한 줄로 말하면?</strong><br>
+    "게이트의 해상도". Gated DeltaNet의 헤드 단위 망각 게이트를 GLA처럼 채널 단위로 세분화하고, 그로 인해 무거워진 계산을 DPLR 특수형 커널로 되살린 것이 KDA입니다. 아이디어는 한 줄이고, 논문 분량의 대부분은 그 한 줄을 하드웨어에서 성립시키는 데 쓰입니다.</p>
+    <p><strong>Q2. 순수 선형 대신 하이브리드가 표준이 된 이유를 이 논문 관점에서 말하면?</strong><br>
+    게이트와 delta rule을 아무리 정교하게 만들어도 상태는 여전히 고정 크기이고, 따라서 "정확히 그 토큰을 되찾아오는" 과제에는 원리적 상한이 있습니다. 소수의 전역 레이어를 섞으면 그 상한을 우회할 수 있고, 비용은 전역 레이어 비율만큼만 냅니다. K3의 3:1은 이 계산의 결론입니다.</p>
+  </div>
+</section>
+
+<section id="s3">
+  <h2><span class="sec">§3</span>3단계 — Kimi 계보: K1.5에서 K3의 부품들까지 (5편, ★ 2편)</h2>
+  <p>이 단계에서는 Moonshot이 자체 공개한 연구를 시간순으로 따라가며 K3의 각 부품 — 옵티마이저 → RL 레시피 → 에이전트 → KDA → AttnRes — 이 어떻게 하나씩 검증되어 왔는지 봅니다. K3 테크니컬 리포트가 나오기 전까지, K3에 대해 확인 가능한 정보의 대부분은 이 다섯 편 안에 있습니다. 이 단계를 끝내면 K3 블로그의 아키텍처 문단을 읽고 각 용어가 어느 논문에서 왔는지 즉시 짚을 수 있습니다. ★ 두 편(§3.4, §3.5)은 수식과 실험 설계까지 정독하세요.</p>
+  <div class="intuition">
+    <div class="iv-title">직관 — 프런티어 랩의 발표는 계보로 읽어야 검증된다</div>
+    <p>한 세대의 플래그십 모델에 들어가는 부품은 대개 그 직전 1~2년의 작은 논문들에서 먼저 따로 검증됩니다. Muon은 Moonlight(16B)에서, KDA는 Kimi Linear(48B)에서, RL 레시피는 K1.5에서 실험된 뒤에야 K3(2.8T)에 들어갔습니다. 그래서 블로그의 화려한 종합 수치보다 부품별 논문의 통제된 실험이 훨씬 신뢰할 수 있는 근거입니다. 이 단계의 독법은 "각 부품이 어느 규모에서, 어떤 비교 조건으로 검증됐는지"를 적어 두는 것입니다 — 그 기록이 §4에서 K3의 주장을 평가하는 잣대가 됩니다.</p>
+  </div>
+
+  <h3 id="s3-1">3.1 Muon &amp; Moonlight — 학습 축의 기반</h3>
+  <p><a href="https://arxiv.org/abs/2502.16982" target="_blank" rel="noopener">arXiv:2502.16982</a> (Moonlight) · 2025 · 난이도 ●●○ · 약 60분 · 정독 범위 §2–3 · 축: 학습</p>
+  <p>Moonshot의 학습 인프라 축입니다. <strong>Muon</strong>은 행렬 파라미터의 모멘텀 그래디언트를 Newton–Schulz 반복으로 근사 직교화해 업데이트하는 옵티마이저입니다. 핵심은 특정 방향이 업데이트를 독점하지 않도록 업데이트의 스펙트럼을 고르게 펴는 것입니다. 대규모 적용에는 두 가지 수정이 필요했습니다 — weight decay의 결합, 그리고 파라미터별 업데이트 RMS 정렬(AdamW와 실효 학습률 스케일 맞추기). 이 둘이 없으면 큰 모델에서 발산합니다. Moonlight(3B 활성 / 16B MoE, 5.7T 토큰)는 같은 성능에 도달하는 데 AdamW 대비 약 절반의 연산 — 즉 2× 수준의 샘플 효율 — 을 보고했고, 이 모델 설계가 Kimi Linear와 K3 계열의 뼈대가 됩니다.</p>
+  <div class="math-block">
+    $$W\ \leftarrow\ W-\eta\,\mathrm{NS}(M_t),\qquad \mathrm{NS}(M)\approx UV^{\top}\ \ \text{where}\ \ M=U\Sigma V^{\top}$$
+    <p>\(M_t\)는 모멘텀이 쌓인 그래디언트 행렬입니다. Newton–Schulz 반복은 SVD를 직접 계산하지 않고도 \(M\)의 특이값들을 전부 1 근처로 눌러, 업데이트를 직교 행렬에 가깝게 만듭니다. 큰 특이값 방향(이미 지배적인 방향)의 힘을 줄이고 작은 특이값 방향에 힘을 실어 주는 효과 — "스펙트럼을 편다"의 의미입니다.</p>
+  </div>
+  <p>계보도 기억해 두세요. Muon → K2의 <strong>MuonClip</strong>(QK-Clip으로 어텐션 로짓 폭주 억제) → K3의 <strong>Per-Head Muon</strong>(어텐션 헤드를 독립적으로 최적화)으로 이어집니다.</p>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. 옵티마이저 개선이 "스케일링 효율"과 왜 직결되나?</strong><br>
+    같은 데이터·연산으로 더 낮은 손실에 도달하면 연산 → 성능 전환율 자체가 올라갑니다. 아키텍처 개선과 곱해지는 요소라는 점이 중요합니다. K3가 말하는 "K2 대비 2.5× 스케일링 효율"은 KDA·AttnRes 같은 구조 변경과 이런 학습 방법론 개선, 그리고 데이터 레시피가 함께 합산된 수치입니다.</p>
+    <p><strong>Q2. Per-Head Muon이 필요한 이유는?</strong><br>
+    어텐션 헤드마다 그래디언트의 크기와 스펙트럼이 크게 다른데, 전체를 한 덩어리로 직교화하면 지배적인 헤드에 정규화 기준이 끌려갑니다. 헤드 단위로 나눠 처리하면 각 헤드가 자기 스케일로 학습합니다. MLA·GQA처럼 헤드 구조가 비대칭이고 헤드 수가 많은 설계에서 효과가 큽니다.</p>
+    <p><strong>Q3. Muon이 왜 하필 어텐션 로짓 폭주를 유발했나?</strong><br>
+    직교화는 업데이트의 모든 방향에 고르게 힘을 실어주므로, AdamW라면 자연히 억눌렸을 방향까지 함께 자랍니다. Q·K 투사에서 이 효과가 누적되면 \(QK^{\top}\) 로짓이 발산해 softmax가 포화되고 손실 스파이크가 납니다. K2는 이를 사후 억제(QK-Clip)로 막았고, K3는 Gated MLA와 SiTU 같은 활성·선택성 제어를 구조에 심어 완화하려 합니다. K3의 MuonClip 계승 여부는 <em>리포트 확인 항목</em>입니다.</p>
+  </div>
+
+  <h3 id="s3-2">3.2 Kimi K1.5 — RL 노선의 선언</h3>
+  <p><a href="https://arxiv.org/abs/2501.12599" target="_blank" rel="noopener">arXiv:2501.12599</a> · 2025 · 난이도 ●●○ · 약 70분 · 정독 범위 §2.3, §3 · 축: 학습</p>
+  <p>Moonshot의 RL 노선 선언입니다. K3의 상시 thinking mode로 이어지는 추론 학습 레시피의 출발점이자, 긴 생성 RL을 실제로 돌리는 <em>공학</em>의 기록이기도 합니다. 골자는 <strong>long-CoT RL</strong> — 검증 가능한 보상(수학 정답, 코드 테스트 통과)으로 긴 사고 사슬을 강화하는 것 — 이며, 이 논문의 독특한 주장은 컨텍스트 길이 자체를 RL 스케일링의 축으로 선언했다는 점입니다.</p>
+  <p>공학적 기여도 셋 기억할 만합니다. <strong>partial rollout</strong>은 아주 긴 생성을 끝까지 기다리지 않고 잘라 저장했다가 이어붙여 재사용하는 기법으로, 긴 rollout의 처리량 문제를 실무적으로 해결합니다. 길이 페널티는 사고 사슬의 폭주를 억제하고, <strong>long2short</strong>는 긴 사고 모델의 능력을 짧은 응답 모델에 증류합니다. 그리고 노선 차원에서, MCTS나 별도의 값함수 없이 단순한 정책 최적화로 충분하다는 "less is more" 결론 — 같은 시기 DeepSeek-R1(§6.3)과 독립적으로 도달한 결론 — 을 제시했습니다.</p>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. 추론 RL 시대에 선형 어텐션이 다시 주목받는 이유는?</strong><br>
+    RL 학습과 추론 모두 매우 긴 생성(rollout)을 대량으로 요구합니다. 디코딩 비용이 토큰당 \(O(1)\)인 KDA류 구조는 이 rollout 비용을 구조적으로 낮춰, test-time scaling과 RL 스케일링의 경제성 자체를 바꿉니다. Kimi Linear 논문이 short/long-context와 별도로 RL 스케일링 구간을 명시적으로 실험한 이유입니다.</p>
+    <p><strong>Q2. partial rollout이 KDA와 만나면 무엇이 좋아지나?</strong><br>
+    partial rollout은 "긴 생성을 잘라 재사용"해 처리량을 벌지만, 이어붙일 때 앞부분의 상태를 복원해야 합니다. full attention이면 긴 KV 캐시를 다시 들고 있어야 하고, KDA면 고정 크기 상태 하나면 됩니다. 즉 긴 rollout RL에서 두 기법은 곱해지는 이득을 냅니다.</p>
+    <p><strong>Q3. "컨텍스트 길이가 RL 스케일링의 축"이라는 주장을 비판적으로 본다면?</strong><br>
+    길이를 늘리면 점수가 오르는 구간이 분명 있지만, 어느 지점부터는 같은 내용을 반복하거나 자기 오류를 강화하는 형태로 길어집니다. 그래서 길이 페널티와 long2short가 함께 필요했던 것입니다. K3가 max effort를 기본값으로 두면서도 low·high effort 모드를 이후 추가하겠다고 밝힌 것은 이 트레이드오프가 여전히 살아 있다는 뜻입니다.</p>
+  </div>
+
+  <h3 id="s3-3">3.3 Kimi K2와 중간 세대 — 에이전틱 능력을 학습 단계에서</h3>
+  <p><a href="https://arxiv.org/abs/2507.20534" target="_blank" rel="noopener">arXiv:2507.20534</a> · 2025 · 난이도 ●●○ · 약 80분 · 정독 범위 §2, §4 · 축: 학습·폭 · (+ K2 Thinking · K2.5 · K2.6 · Agent Swarm)</p>
+  <p>K3 직전 세대인 1T MoE입니다. 숫자를 기준선으로 기억해 두세요 — 총 1T 파라미터, 약 32B 활성(384개 expert 중 8개 + shared expert), 15.5T 토큰 프리트레인. <strong>MuonClip</strong>은 QK-Clip으로 어텐션 로짓의 폭주를 직접 억제해 1T 규모의 Muon 학습을 손실 스파이크 없이 완주시켰습니다 — "대규모에서 Muon이 실제로 된다"의 증명입니다.</p>
+  <p>노선 측면에서 K2는 "에이전틱 능력을 <em>학습 단계에서</em> 만든다"를 확립했습니다. 대규모 에이전틱 데이터 합성, 실행 가능한 환경에서의 도구 사용 RL, 그리고 self-critique 루브릭 보상 — 검증기를 만들기 어려운 영역까지 RL을 확장하는 방법 — 이 그 내용입니다. 이후 계보는 <strong>K2 Thinking</strong>(사고 모드 오픈소스화) → <strong>K2.5</strong>(비전 에이전트) → <strong>K2.6 / K2.7 Code</strong>(코딩 특화) → <strong>Agent Swarm</strong>(병렬 서브에이전트) → K3로 이어지며, K3의 Swarm Max 변형과 네이티브 비전은 이 중간 세대들의 직접적 계승입니다.</p>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. K2 → K3에서 규모 외에 구조적으로 달라진 것을 모두 꼽으면?</strong><br>
+    K2는 full attention 기반 MoE였습니다. K3는 (1) KDA : Gated MLA = 3:1 하이브리드, (2) AttnRes로 residual 대체, (3) Stable LatentMoE 16/896과 Quantile Balancing 라우팅, (4) Per-Head Muon, (5) SiTU 활성 함수, (6) 네이티브 비전과 1M 컨텍스트, (7) SFT 단계부터의 MXFP4/MXFP8 QAT. 아키텍처·최적화·정밀도를 동시에 갈아탄 세대입니다.</p>
+    <p><strong>Q2. "에이전틱 능력을 학습 단계에서 만든다"는 말의 실질적 의미는?</strong><br>
+    프롬프트나 스캐폴딩으로 도구 사용을 흉내 내게 하는 대신, 실행 가능한 환경과 검증 가능한 결과를 대량으로 합성해 그 안에서 RL을 돌린다는 뜻입니다. 그 결과 도구 호출·오류 복구·장기 계획이 모델 가중치에 들어갑니다. K3의 공식 한계 문서가 "과도한 자율 판단"을 경고하는 것은 이 노선의 부작용이기도 합니다.</p>
+    <p><strong>Q3. 중간 세대(K2.5·K2.6)를 굳이 볼 필요가 있나?</strong><br>
+    K3 리포트가 아직 없는 지금, 비전 통합 방식과 코딩 데이터 레시피에 대해 확인 가능한 유일한 1차 자료입니다. 특히 K2.5의 비전 에이전트 설계는 K3의 "스크린샷을 보며 코드를 고치는" vision-in-the-loop 능력의 직접적 전신이므로, 블로그만 훑어도 K3 사례를 읽는 해상도가 달라집니다.</p>
+  </div>
+
+  <h3 id="s3-4">3.4 Kimi Linear — KDA의 원 논문 ★</h3>
+  <p><a href="https://arxiv.org/abs/2510.26692" target="_blank" rel="noopener">arXiv:2510.26692</a> · 2025 · 난이도 ●●● · 약 3시간 (정독) · 전문 · 축: 시퀀스</p>
+  <p>이 로드맵의 정점 하나입니다. K3 어텐션의 설계와 실험 근거가 모두 여기 있고, 커널과 체크포인트가 공개되어 <em>직접 재현 가능한</em> 유일한 K3 부품이기도 합니다. <strong>KDA(Kimi Delta Attention)는 Gated DeltaNet에 채널 단위 게이팅을 결합한 것</strong>입니다 — feature 차원마다 독립적인 망각 속도를 두어 고정 크기 상태 메모리를 훨씬 정밀하게 제어합니다. §2의 계보가 여기서 한 점으로 모입니다.</p>
+  <div class="math-block">
+    $$S_t=S_{t-1}\bigl(\operatorname{Diag}(\alpha_t)-\beta_t k_t k_t^{\top}\bigr)+\beta_t\, v_t k_t^{\top}$$
+    <p>\(\alpha_t\in(0,1)^{d}\)는 채널별 망각 게이트, \(\beta_t\)는 쓰기 강도입니다. 전이 행렬은 대각 + 저랭크(DPLR) 형태인데, 저랭크 항이 delta rule의 \(k_t k_t^{\top}\) 하나뿐인 <em>특수형</em>입니다. 이 특수 구조 덕분에 일반 DPLR 대비 연산을 크게 줄이면서 고전적 delta rule과의 정합성도 유지하는 전용 chunkwise 커널이 가능해집니다 — 커널은 FLA와 vLLM에 오픈소스로 공개되어 있습니다. 레이어 배치는 …K K K M K K K M… (M = Gated MLA, NoPE)입니다.</p>
+  </div>
+  <p>구성은 <strong>KDA : MLA = 3:1 균일 인터리브</strong>입니다. 논문의 대표 주장은, 동일 파라미터·동일 학습 토큰·동일 레시피의 공정 비교에서 full attention을 능가한 <em>최초의 하이브리드 선형 어텐션</em>이라는 것 — 그것도 short-context, long-context, RL 스케일링 세 구간 전부에서입니다. 전역 MLA 레이어에는 위치 인코딩을 아예 넣지 않고(NoPE) 위치·최근성 정보를 전부 KDA에 위임하는데, 이득이 둘입니다 — (a) 추론 시 효율적인 순수 MQA로 변환 가능, (b) RoPE 주파수 튜닝이나 YaRN 없이 긴 컨텍스트 확장. 실증 수치는 48B 총 / 3B 활성, 5.7T 토큰 학습 기준으로, 1M 컨텍스트에서 KV 캐시 최대 75% 절감, 디코딩 처리량 최대 6.3×, 컴퓨트-최적 프리트레인 기준 약 1.16× 효율입니다.</p>
+  <div class="intuition">
+    <div class="iv-title">직관 — 3:1은 표현력과 효율의 교환비다</div>
+    <p>고정 크기 상태는 아무리 정교해도 "80만 토큰 앞의 특정 문자열을 그대로 회수하라" 같은 정확한 장거리 검색에 원리적 한계가 있습니다. 그래서 주기적으로 배치된 전역 MLA 레이어가 정밀 검색을 담당하고, 나머지 3/4의 KDA가 비용을 낮춥니다. 이것은 절충이 아니라 분업입니다 — 두 부품이 서로 못 하는 일을 나눠 맡습니다. 비율을 바꾸면 그 분업의 교환비가 움직입니다. 전역 레이어를 줄일수록 캐시와 연산은 줄지만 정밀 검색이 약해지고, 논문은 이 곡선을 실제로 그려 품질 손실 없이 KV 75%를 절감하는 지점으로 3:1을 고릅니다.</p>
+  </div>
+  <div class="expert">
+    <div class="ex-title">전문가 관점 — 읽는 순서 제안</div>
+    <p>수식(§3)을 먼저 붙잡지 말고, <strong>합성 과제 실험 → 3:1 비율 ablation → 1M 처리량 표</strong> 순으로 결과부터 보세요. "왜 이 복잡한 커널이 필요했는가"가 먼저 납득되면 수식이 훨씬 빨리 읽힙니다.</p>
+  </div>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. KDA만 쓰지 않고 굳이 MLA를 3:1로 끼워 넣는 이유는?</strong><br>
+    고정 크기 상태는 정확한 장거리 검색(예: 80만 토큰 앞의 특정 문자열을 그대로 회수)에 원리적 한계가 있습니다. 주기적으로 배치된 전역 MLA 레이어가 이 정밀 검색을 담당하고, 나머지 3/4의 KDA가 비용을 낮춥니다. 표현력과 효율의 분업이며, 비율은 그 분업의 교환비입니다.</p>
+    <p><strong>Q2. "공정 비교에서 full attention을 이겼다"는 주장에서 확인해야 할 실험 조건은?</strong><br>
+    (1) 동일 파라미터·동일 학습 토큰·동일 레시피로 비교했는지, (2) 비교 대상이 full MLA뿐 아니라 하이브리드 GDN-H도 포함하는지 — 후자가 빠지면 "하이브리드가 좋다"와 "KDA가 좋다"를 구분할 수 없습니다 — (3) short / long / RL 스케일링 세 구간 각각에서 이겼는지. 이 세 구간을 나눠 보고한 것이 논문의 핵심 기여입니다.</p>
+    <p><strong>Q3. KDA에서 "채널 단위 게이팅"이 위치 인코딩과 관련되는 이유는?</strong><br>
+    감쇠 게이트의 누적 곱은 거리에 따라 지수적으로 줄어드는 가중치가 됩니다. 즉 게이트는 데이터 의존적·차원별 상대 위치 바이어스를 학습하는 장치이기도 합니다. 그래서 하이브리드에서 KDA 레이어가 위치 정보를 떠맡고, 전역 MLA 레이어는 명시적 위치 인코딩 없이(NoPE) 순수 검색에만 집중할 수 있습니다.</p>
+    <p><strong>Q4. 왜 하필 3:1인가? 비율을 바꾸면 무엇이 변하나?</strong><br>
+    전역 레이어를 줄일수록 KV 캐시와 연산은 줄지만 정밀 검색 정확도가 떨어집니다. 논문은 비율을 바꿔가며 이 곡선을 그리고, 품질 손실 없이 KV 75%를 절감하는 지점으로 3:1을 택합니다. 주의할 점: 이 실험은 48B 규모입니다. 2.8T·1M에서도 같은 비율인지는 <em>리포트 확인 항목</em>입니다.</p>
+    <p><strong>Q5. 이 논문을 직접 검증하려면 무엇을 하면 되나?</strong><br>
+    Moonshot이 KDA 커널(FLA), vLLM 통합, 48B-A3B 체크포인트를 모두 공개했습니다. 가장 가성비 좋은 재현은 (1) 짧은 컨텍스트에서 KDA와 GDN의 연상 회상 합성 과제 비교, (2) 컨텍스트 길이를 늘려가며 KV 메모리와 토큰/초를 실측해 75%·6× 곡선을 직접 그려보는 것입니다. 수식보다 이 두 실험이 이해를 훨씬 빨리 굳힙니다.</p>
+  </div>
+
+  <h3 id="s3-5">3.5 Attention Residuals — 깊이 축의 혁신 ★</h3>
+  <p><a href="https://arxiv.org/abs/2603.15031" target="_blank" rel="noopener">arXiv:2603.15031</a> · 2026.03 · 난이도 ●●● · 약 2.5시간 (정독) · 전문 · 축: 깊이</p>
+  <p>이 로드맵의 정점 둘째입니다. 시퀀스 축이 아닌 <strong>깊이 축</strong>의 혁신 — 1980년대부터 당연시되던 residual connection의 드롭인 대체입니다. 문제 제기는 §1.1에서 이미 만났습니다. 표준 residual은 이전 레이어 출력을 가중치 1로 균일 누적하고, 여기서 두 병리가 나옵니다 — (a) feature dilution: 깊어질수록 개별 레이어의 기여 비중이 희석되고, (b) 노름 팽창: PreNorm에서 hidden state 크기가 깊이에 따라 무제한으로 자랍니다.</p>
+  <p>이 논문의 지적 핵심은 <strong>쌍대성 논증</strong>입니다. 깊이 방향의 균일 누적은 사실상 <em>깊이 축의 선형 어텐션</em>입니다. 시퀀스 축에서 선형 → 소프트맥스 전환이 결정적이었듯, 깊이 축에서도 같은 전환을 완성하자는 것입니다. 그 구현이 놀랍도록 가볍습니다 — 레이어당 pseudo-query 벡터 \(w_{\ell}\in\mathbb{R}^{d}\) 하나, 즉 \(O(d)\) 파라미터가 전부입니다. 게다가 참조하는 레이어 출력들은 어차피 역전파용으로 보관되므로 학습 중 추가 메모리 비용이 거의 없습니다.</p>
+  <div class="math-block">
+    $$\text{표준:}\ \ h_{\ell}=h_{\ell-1}+f_{\ell}(h_{\ell-1})
+    \qquad\longrightarrow\qquad
+    \text{AttnRes:}\ \ h_{\ell}=\sum_{i\le\ell}\alpha_{i\to\ell}\,v_i,\quad
+    \alpha_{i\to\ell}=\operatorname{softmax}_{i}\bigl(w_{\ell}\cdot\operatorname{norm}(v_i)\bigr)$$
+    <p>왼쪽은 모든 이전 출력에 가중치 1을 주는 균일 누적, 오른쪽은 pseudo-query \(w_{\ell}\)(zero-init)가 이전 레이어 출력들에 점수를 매겨 가중합하는 깊이 방향 어텐션입니다.</p>
+  </div>
+  <p>실전을 위한 변형이 <strong>Block AttnRes</strong>입니다. 모든 레이어를 참조하면 메모리가 \(O(L\cdot d)\)로 커지므로, 레이어를 블록으로 묶어 블록 대표 표현에만 어텐션합니다 — \(O(N\cdot d)\). 약 8블록이면 이득의 대부분을 확보하며, 캐시 기반 파이프라인 통신과 2단계 계산으로 대규모 학습에도 드롭인이 가능합니다. <strong>zero-init</strong>도 중요한 설계입니다. pseudo-query를 0으로 초기화하면 시작은 균등 평균(표준 residual과 동등)이고, 학습이 진행되며 선택성을 획득합니다. 결과는 스케일링 법칙에서 <strong>1.25× 컴퓨트 이득</strong>(= 25% 더 학습한 베이스라인과 동급)이고, Kimi Linear 48B/A3B·1.4T 토큰 기준으로 GPQA-Diamond +7.5, MATH +3.6, HumanEval +3.1입니다. 부수 효과로 최적 모델 구조가 더 깊고 좁은 쪽으로 이동합니다.</p>
+  <div class="intuition">
+    <div class="iv-title">직관 — 시퀀스에서 있었던 일이 깊이에서 반복된다</div>
+    <p>레이어들이 계산해 온 중간 표현을 "서랍장"이라고 생각해 보세요. 표준 residual은 서랍장의 모든 서랍 내용물을 통째로 부어 섞은 것을 다음 레이어에 넘깁니다 — 깊어질수록 원하는 것이 묽어집니다. AttnRes는 각 레이어가 질의 벡터 하나로 "지금 필요한 서랍"을 골라 꺼내 쓰게 합니다. 이것이 다단계 추론에서 이득이 큰 이유의 그럴듯한 해석이기도 합니다 — 중간 단계의 표현을 나중에 다시 꺼내 쓰는 계산이야말로 선택적 깊이 검색이 잘하는 일이니까요. 그리고 이 이야기의 구조 자체가 §2와 같습니다: 균일 누적(선형)에 질의 의존 softmax를 씌워 선택성을 부여한다. 시퀀스 축에서 일어난 전환이 깊이 축에서 반복된 것입니다.</p>
+  </div>
+  <div class="note">
+    <p><b>주의 — "1.25×"와 "학습 효율 25% 향상"은 같은 말입니다.</b> 25%만큼 성능이 오른 것이 아니라, 25% 더 많은 연산으로 학습한 모델과 같은 손실에 도달했다는 뜻입니다. K3의 "2.5× 스케일링 효율"도 같은 종류의 지표이므로 혼동하지 마세요.</p>
+  </div>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. AttnRes를 "깊이 방향의 어텐션"이라 부를 수 있는 이유는?</strong><br>
+    토큰 축이 아니라 레이어 축을 따라, 각 레이어가 pseudo-query로 이전 레이어들의 출력 중 무엇을 얼마나 가져올지 가중치를 계산하기 때문입니다. 시퀀스 어텐션이 "어느 토큰을 볼까"라면, AttnRes는 "어느 깊이의 표현을 볼까"입니다. 질의 하나로 후보들에 점수를 매겨 가중합한다는 골격이 완전히 동일합니다.</p>
+    <p><strong>Q2. "표준 residual = 깊이 축의 선형 어텐션"이라는 주장을 풀어 설명하면?</strong><br>
+    \(h_{\ell}=\sum_i 1\cdot v_i\)는 모든 후보에 동일 가중치를 주는 가중합입니다. 선형 어텐션도 정규화 없이 상태에 균일 누적하는 구조였습니다. 즉 둘 다 "질의에 무관하게 다 더한다"입니다. AttnRes는 여기에 질의 의존적 softmax를 씌워 선택성을 부여합니다 — 시퀀스에서 선형 어텐션 → 소프트맥스 어텐션으로 간 것과 정확히 같은 이동입니다.</p>
+    <p><strong>Q3. pseudo-query의 zero-init이 왜 중요한가?</strong><br>
+    0으로 초기화하면 모든 소스 레이어에 대한 어텐션 가중치가 균일해져 표준 residual과 동일한 상태에서 출발합니다. 처음부터 선택성을 주면 학습 초기가 불안정해지는데, zero-init 덕분에 "기존 구조에서 연속적으로 벗어나는" 궤적이 되고, 이것이 드롭인 대체라는 주장을 성립시킵니다.</p>
+    <p><strong>Q4. Full AttnRes와 Block AttnRes 중 실전에서는 무엇을 쓰나?</strong><br>
+    Full은 가장 세밀하지만 참조 대상이 \(O(L)\)로 늘어 메모리와, 특히 파이프라인 병렬에서의 통신 부담이 커집니다. Block(약 8블록)은 이득의 대부분을 유지하면서 메모리를 \(O(N)\)으로 줄여, 초심층 + 파이프라인 병렬 환경에서 현실적인 선택입니다. 흥미롭게도 후속 재현에서는 Block이 학습 손실은 더 낮고 Full이 다운스트림 평가에서 앞서는 엇갈림도 보고됐습니다. K3가 어느 쪽인지는 <em>리포트 확인 항목</em>입니다.</p>
+    <p><strong>Q5. 어떤 과제에서 이득이 크고, 어떤 과제에서 작은가?</strong><br>
+    보고된 이득은 다단계 추론(GPQA-Diamond +7.5)에서 가장 크고, 단순 암기형에서는 작습니다. 해석하자면 선택적 깊이 검색은 "중간 단계의 표현을 나중에 다시 꺼내 쓰는" 계산에 유리하고, 지식을 그냥 저장·인출하는 데는 별 도움이 안 됩니다. 후속 분석들도 이 경계를 지적합니다.</p>
+    <p><strong>Q6. KDA와 AttnRes는 각각 어떤 축의 문제를 푸는가?</strong><br>
+    KDA는 시퀀스 길이 축(1M 컨텍스트에서의 연산·메모리), AttnRes는 모델 깊이 축(수백 레이어에서의 정보 흐름)을 다룹니다. K3 공식 설명 그대로 — "정보가 더 긴 시퀀스와 더 깊은 모델을 매끄럽게 흐르게 한다"의 두 축입니다. 서로 독립적이라 이득이 곱해질 것으로 기대되지만, 그 곱셈이 실제로 성립하는지가 K3 리포트에서 확인할 흥미로운 지점입니다.</p>
+    <p><strong>Q7. 이미 학습된 모델에 AttnRes를 나중에 붙일 수 있나?</strong><br>
+    거의 안 됩니다. 후속 재현 실험에서 사전학습 모델에 AttnRes를 얹어 파인튜닝하면 이득이 미미했습니다 — 기존 가중치가 이미 표준 residual 흐름에 최적화되어 있기 때문입니다. "드롭인 대체"는 처음부터 학습할 때 성립하는 말입니다. K3가 새 세대에서야 이걸 도입한 이유이기도 합니다.</p>
+  </div>
+</section>
+
+<section id="s4">
+  <h2><span class="sec">§4</span>4단계 — Kimi K3: 종합과 트렌드 독해 (1편, ★)</h2>
+  <p><a href="https://www.kimi.com/blog/kimi-k3" target="_blank" rel="noopener">Kimi K3 테크 블로그</a> · 2026.07.16 공개, 가중치·테크니컬 리포트 7/27 예정 · 난이도 ●●○ · 약 90분 · 전문 + 각주 · 축: 시퀀스·깊이·폭·학습·서빙</p>
+  <p>지금까지의 부품을 K3라는 완성품으로 조립하는 단계입니다. 블로그를 먼저 읽고, 리포트가 나오면 학습 레시피와 평가 상세를 보강하세요. 현재로서는 블로그가 유일한 1차 자료이므로, <strong>검증된 것과 아직 주장인 것을 구분하며 읽는 것이 이 단계의 진짜 훈련</strong>입니다. 이 단계를 끝내면 K3 블로그의 모든 고유명사를 출처와 함께 설명할 수 있고, 리포트가 나왔을 때 무엇을 먼저 펼쳐 볼지 정해 둔 상태가 됩니다.</p>
+
+  <h3 id="s4-1">4.1 아키텍처 — 다섯 축의 조립</h3>
+  <p>블로그가 밝힌 아키텍처를 축별로 정리하면 다음과 같습니다.</p>
+  <ul>
+    <li><strong>규모</strong> — 2.8T 총 파라미터, Stable LatentMoE로 896개 expert 중 16개 활성, 1M 토큰 컨텍스트, 네이티브 비전(이미지·비디오). 출시 시점에는 max thinking effort가 기본값이며 low/high 모드는 추후 추가 예정입니다.</li>
+    <li><strong>어텐션</strong> — KDA(시퀀스 축) + AttnRes(깊이 축) + Gated MLA(전역 레이어의 선택성 강화)의 3종 세트.</li>
+    <li><strong>라우팅·최적화</strong> — Quantile Balancing(라우터 점수의 분위수에서 할당을 직접 유도해 휴리스틱 업데이트와 민감한 균형 하이퍼파라미터를 제거), Per-Head Muon(어텐션 헤드별 독립 최적화), SiTU(Sigmoid Tanh Unit) 활성 함수.</li>
+    <li><strong>정밀도·인프라</strong> — SFT 단계부터 QAT(MXFP4 가중치 + MXFP8 활성). 정적 shape에 임계 경로 호스트 동기화가 없는 완전 균형 expert-parallel 학습. 배포는 64개 이상 가속기의 슈퍼노드 권장.</li>
+    <li><strong>서빙</strong> — KDA는 기존 prefix cache와 맞지 않아 vLLM에 전용 구현을 기여. Mooncake 분리형 추론과 결합해 코딩 워크로드에서 캐시 히트율 90% 이상, 캐시 히트 입력 단가는 1/10.</li>
+    <li><strong>주장</strong> — 이 모든 변경과 데이터·학습 레시피 개선을 합쳐 K2 대비 약 2.5× 스케일링 효율.</li>
+  </ul>
+
+  <h3 id="s4-2">4.2 포지션, 공식 한계, 사례 연구</h3>
+  <p>포지션 주장은 이중적입니다. 코딩·에이전트 벤치마크에서는 Claude Opus 4.8 · GPT-5.5급을 상회한다고 보고하면서, 종합 성능은 Claude Fable 5 · GPT-5.6 Sol에 미달함을 블로그가 직접 인정합니다. 공식 한계는 세 가지입니다 — (1) <strong>thinking history 민감성</strong>: 사고 이력이 보존된 모드로 학습되어, 하네스가 이전 턴의 사고 내용을 되돌려주지 않으면 품질이 크게 흔들립니다. (2) <strong>과도한 자율 판단</strong>: 모호한 지시에서 사용자 대신 결정해 버립니다. (3) 최상위 폐쇄 모델 대비 <strong>UX 격차</strong>.</p>
+  <p>사례 연구는 읽어 볼 가치가 큰 부분입니다 — 24시간 GPU 커널 최적화, MLIR 위에 자체 IR과 PTX 코드젠까지 갖춘 Triton류 컴파일러를 자작한 <strong>MiniTriton</strong>, 48시간 자율 칩 설계(Nangate 45nm, 4mm², 100MHz, 시뮬레이션 8,700 tok/s), 그리고 I–Love–Q 천체물리 관계의 재현입니다. 장시간 자율 과제의 실행 기록이 벤치마크 표를 대신하기 시작했다는 점에서, 이 사례들 자체가 §5의 트렌드 T4를 보여주는 증거이기도 합니다.</p>
+  <div class="expert">
+    <div class="ex-title">전문가 관점 — 자사 발표를 읽는 자세</div>
+    <p>블로그는 자사 발표이고 리포트는 아직 없습니다. 벤치마크 각주에 하네스(KimiCode / Claude Code / Codex)와 평가 하드웨어가 모델마다 다르게 적혀 있으니 반드시 확인하세요 — 예를 들어 일부 비교에서 상대 모델이 fallback을 겪었다는 사실도 각주에 있습니다. 각주가 본문보다 정보 밀도가 높은 드문 문서입니다.</p>
+  </div>
+
+  <h3 id="s4-3">4.3 종합 자기 점검 — 로드맵 전체를 잇는 여섯 질문</h3>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. K3의 구조 혁신을 각각 "무슨 축의 어떤 병목"에 대응시켜 설명해 보라.</strong><br>
+    KDA → 시퀀스 축: 1M 컨텍스트에서 어텐션의 제곱 연산과 KV 캐시 병목. AttnRes → 깊이 축: 초심층 모델에서 균일 누적 residual의 feature dilution과 노름 팽창. Stable LatentMoE → 폭 축: 16/896 초희소 라우팅의 학습 불안정. 여기에 Per-Head Muon → 학습 축, MXFP4 QAT → 정밀도·서빙 축이 붙습니다. 다섯 축을 동시에 풀어 "연산 → 지능 전환 효율"을 올린 것이 K3의 본질입니다.</p>
+    <p><strong>Q2. K3의 설계가 에이전틱 워크로드에 특히 유리한 이유를 비용 관점에서 설명하면?</strong><br>
+    에이전트 작업은 긴 도구 로그와 코드베이스를 컨텍스트에 쌓으며 수십만~백만 토큰을 오래 유지하고, 같은 컨텍스트를 반복해서 다시 읽습니다. 여기에 세 가지가 겹칩니다 — (1) KDA의 \(O(1)\) 디코딩과 KV 절감으로 긴 세션 단가가 내려가고, (2) MoE 희소성이 거대한 지식 용량을 낮은 활성 비용으로 제공하며, (3) Mooncake 프리픽스 캐시가 반복 컨텍스트를 90% 이상 재사용합니다. 세 번째가 공개 가격표에서 캐시 히트 입력이 1/10인 이유입니다.</p>
+    <p><strong>Q3. "K2 대비 2.5× 스케일링 효율"이라는 수치를 어떻게 검증해야 하나?</strong><br>
+    분해해 보는 것이 첫 단계입니다. 공개된 부품별 수치는 AttnRes 1.25×, Kimi Linear 1.16×이므로 곱하면 약 1.45×. 나머지 약 1.7배는 MoE 희소성 확대와 데이터·학습 레시피의 몫이 됩니다. 확인할 것은 세 가지 — (1) 이 이득들이 정말 곱셈적으로 합쳐지는지, (2) 어느 규모에서 측정한 스케일링 법칙인지, (3) 비교 대상 K2가 동일 데이터로 학습된 것인지. 셋 중 하나만 어긋나도 2.5×의 의미가 달라집니다.</p>
+    <p><strong>Q4. "오픈 웨이트"인데 왜 쉽게 자체 호스팅할 수 없나?</strong><br>
+    2.8T 파라미터는 MXFP4 4비트로도 1TB급 가중치입니다. 게다가 16/896 희소성 때문에 expert-parallel 규모가 커야 하고 그만큼 all-to-all 통신이 많아, 공식 권장이 64개 이상 가속기의 고대역폭 슈퍼노드입니다. 즉 가중치 공개의 실질적 수혜자는 개인이 아니라 추론 제공자·연구 기관이며, 개인에게 열리는 것은 주로 아키텍처의 검증 가능성과 증류·연구 용도입니다.</p>
+    <p><strong>Q5. 테크니컬 리포트가 나오면 우선 확인할 5가지를 꼽는다면?</strong><br>
+    (1) 학습 레시피 — MuonClip 계승 여부, 프리트레인 토큰 수, 멀티모달 데이터 구성. (2) 하이브리드 상세 — 2.8T 규모에서도 3:1인지, 1M 확장 방법. (3) AttnRes 구성 — Full인지 Block인지, 블록 수. (4) 활성 파라미터 수와 그것이 K2의 32B 대비 어떻게 변했는지. (5) 포스트트레이닝 — 상시 thinking을 만든 RL 구성과 에이전틱 학습 파이프라인, 그리고 QAT를 SFT부터 켠 것이 정렬에 미친 영향.</p>
+    <p><strong>Q6. 공식 한계 중 "thinking history 민감성"이 실무에 주는 함의는?</strong><br>
+    K3는 사고 이력이 보존된 상태로 학습됐기 때문에, 하네스가 이전 턴의 사고 내용을 그대로 되돌려주지 않으면 학습 분포에서 벗어난 입력을 받게 됩니다. 실무적으로는 (1) 호환성이 검증된 하네스를 쓰고, (2) 세션 중간에 다른 모델에서 K3로 갈아타지 말 것. 이것은 버그라기보다 "사고를 상태로 취급하는" 모델 세대의 구조적 특징이며, 앞으로 하네스 호환성이 모델 선택 기준이 된다는 신호입니다.</p>
+  </div>
+</section>
+
+<section id="s5">
+  <h2><span class="sec">§5</span>K3가 보여주는 2026 프런티어 6대 트렌드</h2>
+  <p>K3 한 모델을 렌즈로 삼으면 2026년 프런티어의 방향 여섯 가지가 보입니다. 각 트렌드마다 판단의 근거를 함께 적었습니다 — 트렌드 서술은 해석이므로, 근거의 강도를 따로 평가하며 읽으세요.</p>
+
+  <h4>T1 — 하이브리드 선형 어텐션의 주류화</h4>
+  <p>full attention 일변도에서 "선형 3 : 전역 1" 같은 하이브리드로 이동하고 있습니다. 1M 컨텍스트와 에이전트 경제성이 동력이며, KDA·Mamba 계열·Gated DeltaNet이 그 계보입니다. 순수 선형이 아니라 <em>하이브리드</em>가 답이라는 데 합의가 모인 것이 2025–26년의 결론입니다.<br><em>근거 — Kimi Linear 3:1, Qwen3-Next의 GDN 하이브리드, vLLM의 하이브리드 모델 1급 지원.</em></p>
+
+  <h4>T2 — 극단적 MoE 희소성과 라우팅의 재설계</h4>
+  <p>총 파라미터는 조 단위로 키우되 활성 비율은 낮추는 방향입니다(K3: 16/896 ≈ 1.8%). 관건은 라우팅 안정성으로 옮겨갔고, 보조 손실 → aux-loss-free bias → Quantile Balancing처럼 취약한 하이퍼파라미터를 아예 제거하는 설계가 경쟁 포인트가 됐습니다.<br><em>근거 — DeepSeekMoE 64 → V3 256 → K2 384 → K3 896.</em></p>
+
+  <h4>T3 — 깊이 축의 재설계</h4>
+  <p>residual connection처럼 10년간 당연시되던 부품을 다시 설계하는 흐름입니다. AttnRes는 "레이어당 벡터 하나 + 스케일링 법칙상 일관된 이득"이라는 드롭인 개선의 전형이며, 발표 넉 달 만에 의료 영상 등 인접 분야로 파생이 번졌습니다. 부수 효과로 최적 모델 형상이 더 깊고 좁은 쪽으로 이동합니다.<br><em>근거 — AttnRes 1.25× 컴퓨트 이득, DenseFormer·DeepCrossAttention 등 동시대 계보.</em></p>
+
+  <h4>T4 — 상시 추론 + 에이전틱 포스트트레이닝</h4>
+  <p>K1.5의 long-CoT RL, K2의 도구 사용 RL을 거쳐 K3는 추론이 기본값입니다(max thinking effort). 평가의 중심도 단답형에서 장시간 자율 코딩·도구 조율로 옮겨갔습니다. 24시간 커널 최적화나 48시간 칩 설계 같은 사례가 벤치마크를 대신하기 시작한 것이 이 전환의 표식입니다.<br><em>근거 — Terminal-Bench·SWE Marathon·FrontierSWE 등 장기 과제형 벤치마크의 부상.</em></p>
+
+  <h4>T5 — 정밀도와 서빙이 아키텍처 결정에 개입</h4>
+  <p>MXFP4 가중치를 SFT 단계부터 QAT로 학습한다는 것은, 배포 정밀도가 더 이상 사후 최적화가 아니라 학습 설계의 일부가 됐다는 뜻입니다. 마찬가지로 "KDA는 기존 prefix cache가 안 먹혀 vLLM에 새 구현을 기여했다"는 문장은, 서빙 스택이 아키텍처 선택을 제약하는 시대가 왔음을 보여줍니다.<br><em>근거 — MXFP4/MXFP8 QAT, KDA 전용 prefix cache, 64+ 가속기 슈퍼노드 권장.</em></p>
+
+  <h4>T6 — 오픈 웨이트의 프런티어 진입, 그리고 그 한계</h4>
+  <p>3조급 모델의 가중치 공개로 오픈 모델이 최전선 바로 아래까지 올라왔고, 비용 대비 성능이 폐쇄 모델의 가격 정책을 압박합니다. 다만 K3 자신이 종합 성능에서 최상위 폐쇄 모델에 미달함을 인정했고, 실제 구동에 슈퍼노드가 필요합니다. "공개되었다"와 "쓸 수 있다"가 갈라지는 국면입니다.<br><em>근거 — 가중치 7/27 공개 예정, 종합 성능 격차 자체 인정, 슈퍼노드 배포 권장.</em></p>
+</section>
+
+<section id="s6">
+  <h2><span class="sec">§6</span>5단계 — 가중치를 받은 다음: 정렬·튜닝·서빙 (5편)</h2>
+  <p>1~4단계가 "K3는 어떻게 만들어졌나"였다면, 여기는 <strong>"받아서 무엇을 할 수 있나"</strong>입니다. 프리트레인된 모델이 어떻게 지시를 따르고 사고하는 모델이 되는지(정렬), 내 데이터로 어떻게 손보는지(튜닝), 그리고 실제로 굴리려면 무엇이 필요한지(서빙)를 다룹니다. K3 블로그가 던진 용어 가운데 아직 설명되지 않은 것들 — QAT, prefix cache, thinking history — 이 여기서 정리됩니다. 이 단계를 끝내면 7월 27일 가중치가 공개됐을 때 "무엇을 시도할 수 있고 무엇은 무리인지"를 스스로 판단할 수 있습니다.</p>
+  <div class="intuition">
+    <div class="iv-title">직관 — 정렬 → 튜닝 → 서빙 순서인 이유</div>
+    <p>다섯 편의 배열은 의사결정 트리를 따라갑니다. 먼저 정렬 3편(§6.1–6.3)은 "이 모델의 행동이 어떻게 만들어졌는가"를 알려줍니다 — 이걸 모르면 파인튜닝이 무엇을 덮어쓰는지도 모른 채 손대게 됩니다. 다음 튜닝 1편(§6.4)은 "내가 그 행동을 바꿀 수 있는 현실적 수단"의 목록이고, 마지막 서빙 1편(§6.5)은 "애초에 이 모델을 굴릴 수 있는가"라는 물리적 제약입니다. 실무에서는 종종 역순으로 판단하게 됩니다 — 서빙이 안 되면 튜닝도 정렬도 의미가 없으니까요. 어느 방향이든, 세 층이 별개의 결정이라는 것을 아는 것이 이 단계의 목적입니다.</p>
+  </div>
+
+  <h3 id="s6-1">6.1 InstructGPT &amp; Constitutional AI — 정렬의 표준 3단계</h3>
+  <p><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">arXiv:2203.02155</a> (+ <a href="https://arxiv.org/abs/2212.08073" target="_blank" rel="noopener">arXiv:2212.08073</a>) · 2022 · 난이도 ●○○ · 약 60분 · 정독 범위 InstructGPT §3 · 축: 학습</p>
+  <p>정렬의 표준 3단계(SFT → 보상 모델 → RL)가 여기서 확립됩니다. K2의 self-critique 루브릭 보상과 K3의 포스트트레이닝을 읽으려면 이 골격이 먼저 필요합니다. 파이프라인은 (1) SFT — 사람이 쓴 시연 데이터로 지도학습, (2) RM — 응답 쌍의 선호 비교로 보상 모델 학습, (3) RL — 보상을 올리되 KL 페널티로 SFT 정책에서 멀어지지 않게 제약, 순서입니다. 결과 중 가장 유명한 것은 1.3B InstructGPT가 175B GPT-3보다 사람에게 더 선호됐다는 것 — 정렬이 규모를 이길 수 있다는 첫 대중적 증거입니다. 부작용도 정직하게 기록되어 있습니다. 정렬 후 일부 표준 벤치마크가 하락하는 <strong>alignment tax</strong>이며, 프리트레인 그래디언트를 섞는 PPO-ptx로 완화합니다.</p>
+  <div class="math-block">
+    $$\max_{\pi}\ \mathbb{E}_{x,\,y\sim\pi}\bigl[r(x,y)\bigr]\;-\;\beta\, D_{\mathrm{KL}}\bigl(\pi(\cdot\mid x)\,\big\|\,\pi_{\mathrm{ref}}(\cdot\mid x)\bigr)$$
+    <p>RLHF의 목적 함수입니다. 첫 항이 보상 최대화, 둘째 항이 "원래 언어 모델에서 너무 멀어지지 말라"는 닻입니다. 이 KL 항이 왜 필수인지가 아래 자기 점검 Q2입니다.</p>
+  </div>
+  <p><strong>Constitutional AI</strong>는 사람 피드백 대신 명시된 원칙으로 모델이 스스로 비판·수정하게 하는 방법(RLAIF)입니다. K2의 self-critique 루브릭 보상이 같은 계열이며, 검증기를 만들 수 없는 영역으로 RL을 확장하는 표준 우회로입니다.</p>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. SFT만으로는 왜 부족한가?</strong><br>
+    시연 데이터는 "좋은 답 하나"만 알려줄 뿐, 무엇이 왜 더 나은지는 알려주지 않습니다. 선호 비교 데이터는 응답들 사이의 순서를 주므로, 모델이 시연을 그대로 모방하는 수준을 넘어 더 나은 쪽으로 탐색할 수 있습니다. 다만 보상 모델은 학습 분포 밖에서 취약하므로 KL 제약이 반드시 따라붙습니다.</p>
+    <p><strong>Q2. KL 페널티를 빼면 어떤 일이 벌어지나?</strong><br>
+    보상 해킹이 일어납니다. 정책이 보상 모델의 빈틈을 찾아, 사람이 보기엔 이상하지만 RM 점수는 높은 출력으로 붕괴합니다. KL 항은 "원래 언어 모델에서 너무 멀어지지 말라"는 닻입니다. 검증 가능한 보상(수학·코드)을 쓰는 이 단계의 다음 논문들이 이 문제에서 상대적으로 자유로운 이유이기도 합니다.</p>
+    <p><strong>Q3. K3의 "과도한 자율 판단"이라는 공식 한계를 이 관점에서 해석하면?</strong><br>
+    보상이 장기 과제의 최종 성공에 걸려 있으면, 모델은 도중에 사람에게 묻는 것보다 스스로 결정하고 밀어붙이는 정책을 학습합니다. 질문은 보상을 지연시키니까요. 즉 이것은 버그가 아니라 보상 설계의 직접적 귀결이고, 그래서 Moonshot의 완화책도 학습 수정이 아니라 시스템 프롬프트·AGENTS.md로 경계를 명시하라는 운영 지침입니다.</p>
+  </div>
+
+  <h3 id="s6-2">6.2 Direct Preference Optimization — 보상 모델 없는 정렬</h3>
+  <p><a href="https://arxiv.org/abs/2305.18290" target="_blank" rel="noopener">arXiv:2305.18290</a> · 2023 · 난이도 ●●○ · 약 60분 · 정독 범위 §4 · 축: 학습</p>
+  <p>보상 모델도 온라인 샘플링도 없이 선호 데이터만으로 정렬하는 방법입니다. 개인이나 소규모 팀이 오픈 모델을 손볼 때 가장 먼저 시도하게 되는 경로입니다. 핵심 통찰은 KL 제약 하 최적 정책과 보상 사이에 닫힌 형태의 관계가 있다는 것 — 이를 이용하면 보상 모델을 따로 두지 않고 선호 쌍에 대한 단순 분류 손실로 정책을 직접 최적화할 수 있습니다. 즉 정책 자체가 암묵적 보상 모델이 됩니다.</p>
+  <div class="math-block">
+    $$r(x,y)=\beta\log\frac{\pi(y\mid x)}{\pi_{\mathrm{ref}}(y\mid x)}+\text{const},\qquad
+    \mathcal{L}_{\mathrm{DPO}}=-\,\mathbb{E}\!\left[\log\sigma\!\Bigl(\beta\log\tfrac{\pi(y_w\mid x)}{\pi_{\mathrm{ref}}(y_w\mid x)}-\beta\log\tfrac{\pi(y_l\mid x)}{\pi_{\mathrm{ref}}(y_l\mid x)}\Bigr)\right]$$
+    <p>왼쪽이 "정책이 곧 보상"이라는 관계식이고, 오른쪽이 선호 쌍 \((y_w \succ y_l)\)에 대한 분류 손실입니다. \(\beta\)를 키우면 참조 정책에 더 붙잡아 두는(보수적인) 학습이 됩니다.</p>
+  </div>
+  <p>장점은 RM 학습과 온라인 샘플링이 없어 안정적이고 저렴하다는 것, 한계는 오프라인이라 정책이 움직인 뒤의 분포를 반영하지 못하고 길이 편향과 과적합에 취약하다는 것입니다. 파생 계보 — IPO(과적합 완화), KTO(쌍 없이 이진 신호), SimPO(참조 모델 제거), ORPO(SFT와 통합) — 는 데이터 형태에 맞춰 고르면 됩니다.</p>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. DPO와 RL(PPO·GRPO) 중 무엇을 언제 쓰나?</strong><br>
+    선호 쌍이 이미 있고 예산이 작으면 DPO. 검증 가능한 보상(테스트 통과, 정답 채점)이 있고 모델이 스스로 탐색해야 하면 RL입니다. K3의 상시 thinking은 명백히 후자 계열이며, DPO로는 만들 수 없습니다 — 사고 사슬은 사람이 선호 쌍으로 라벨링할 수 있는 대상이 아니기 때문입니다.</p>
+    <p><strong>Q2. DPO의 길이 편향은 왜 생기고 어떻게 대응하나?</strong><br>
+    로그 확률의 합은 토큰이 많을수록 절댓값이 커지므로, 선호된 응답이 대체로 길면 모델이 "길게 쓰면 이긴다"를 학습합니다. 대응은 길이 정규화(SimPO 계열), 길이를 맞춘 데이터 구성, 또는 평가에서의 길이 통제입니다. 실무에서 DPO 후 응답이 갑자기 장황해지면 대개 이 문제입니다.</p>
+  </div>
+
+  <h3 id="s6-3">6.3 DeepSeek-R1 &amp; GRPO — 상시 thinking의 계기</h3>
+  <p><a href="https://arxiv.org/abs/2501.12948" target="_blank" rel="noopener">arXiv:2501.12948</a> · 2025 · 난이도 ●●○ · 약 70분 · 정독 범위 §2 · 축: 학습</p>
+  <p>"상시 thinking"이 산업 표준이 된 계기입니다. K1.5(§3.2)와 같은 달에 독립적으로 같은 결론에 도달한 논문이라, 둘을 나란히 읽으면 무엇이 본질이고 무엇이 구현 선택인지가 갈립니다. 핵심은 <strong>RLVR(검증 가능 보상 RL)</strong> — 보상 모델 없이 채점기와 테스트 실행 결과만으로 보상을 줍니다. 그것만으로 사고 사슬이 자발적으로 길어지고 자기 검증 행동이 출현합니다. <strong>GRPO</strong>는 값함수(critic)를 제거한 정책 최적화입니다. 한 프롬프트에 \(G\)개 응답을 뽑아 그룹 내 표준화된 보상을 어드밴티지로 쓰므로, 메모리가 절반으로 줄고 구현이 단순해집니다.</p>
+  <div class="math-block">
+    $$\hat{A}_i=\frac{r_i-\operatorname{mean}(r_1,\ldots,r_G)}{\operatorname{std}(r_1,\ldots,r_G)}$$
+    <p>같은 프롬프트에서 뽑은 \(G\)개 응답의 보상을 그룹 안에서 표준화한 것이 각 응답의 어드밴티지입니다. 그룹 평균이 값함수의 몬테카를로 추정 역할을 대신합니다.</p>
+  </div>
+  <p>서사도 기억할 만합니다. 순수 RL만 돌린 R1-Zero는 성능은 났지만 가독성과 언어 혼용 문제가 있었고, 콜드스타트 SFT + 다단계 RL로 R1이 완성됩니다 — "순수 RL만으로는 제품이 안 된다"의 기록입니다. 마지막으로 증류: R1의 출력으로 작은 모델을 학습시키는 것이 작은 모델에 직접 RL을 돌리는 것보다 효과적이었습니다. 이것이 K3 가중치를 개인이 활용하는 가장 현실적인 경로이기도 합니다.</p>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. critic을 없앨 수 있는 이유는? 무엇을 대가로 치르나?</strong><br>
+    같은 프롬프트에 대한 그룹 평균 보상이 값함수의 몬테카를로 추정 역할을 하기 때문입니다. 대가는 샘플링 비용 — 프롬프트마다 \(G\)개를 생성해야 합니다. 그리고 바로 여기서 KDA가 직접적인 경제적 이득으로 연결됩니다. 저렴한 rollout은 곧 더 큰 \(G\), 더 안정적인 어드밴티지 추정입니다.</p>
+    <p><strong>Q2. 검증 가능한 보상의 한계는? K3는 그 밖을 어떻게 다뤘을까?</strong><br>
+    수학·코드처럼 자동 채점기가 있는 영역 밖에서는 쓸 수 없습니다. 지식 작업·글쓰기·디자인은 정답이 없습니다. 우회로는 루브릭 기반 자기 비판(K2)과 LLM 심판, 그리고 K3가 강조한 내부 knowledge work 평가셋입니다. 실제 사용자-에이전트 워크플로에서 반복되는 패턴을 뽑아 평가로 만들었다는 설명이 그것입니다.</p>
+    <p><strong>Q3. K1.5와 R1을 나란히 놓았을 때 공통 결론은?</strong><br>
+    둘 다 MCTS도, 과정 보상 모델도, 복잡한 탐색도 필요 없었다는 것입니다. 검증 가능한 최종 보상 + 단순한 정책 최적화 + 충분히 긴 컨텍스트면 충분했습니다. 서로 몰랐던 두 팀이 같은 달에 같은 결론에 도달했다는 사실 자체가 이 결론의 강도를 말해 줍니다.</p>
+  </div>
+
+  <h3 id="s6-4">6.4 LoRA &amp; QLoRA — 현실적인 파인튜닝의 경계</h3>
+  <p><a href="https://arxiv.org/abs/2106.09685" target="_blank" rel="noopener">arXiv:2106.09685</a> / <a href="https://arxiv.org/abs/2305.14314" target="_blank" rel="noopener">arXiv:2305.14314</a> · 2021·2023 · 난이도 ●○○ · 약 50분 · 정독 범위 LoRA §4, QLoRA §3 · 축: 학습·서빙</p>
+  <p>전체 파인튜닝이 불가능한 규모에서 무엇이 현실적으로 가능한가에 대한 답입니다. <strong>LoRA</strong>는 가중치 갱신을 저랭크 분해로 제한합니다. 학습 파라미터가 수천 분의 1로 줄고, 추론 시에는 어댑터를 원래 가중치에 병합할 수 있어 지연이 늘지 않습니다. <strong>QLoRA</strong>는 베이스를 4비트(NF4)로 얼려 두고 어댑터만 학습하며, double quantization과 paged optimizer로 단일 GPU 파인튜닝의 문턱을 크게 낮췄습니다.</p>
+  <div class="math-block">
+    $$W'=W+BA,\qquad B\in\mathbb{R}^{d\times r},\ A\in\mathbb{R}^{r\times k},\ r\ll\min(d,k)$$
+    <p>갱신을 랭크 \(r\)의 두 행렬 곱으로 제한합니다. \(W\)는 얼린 채 \(A, B\)만 학습하므로 옵티마이저 상태가 극적으로 작아지고, 배포 시에는 \(BA\)를 \(W\)에 더해 병합하면 원래 모델과 같은 형태가 됩니다.</p>
+  </div>
+  <p>MoE에 붙일 때는 고유한 판단 지점이 있습니다. 어텐션 투사에만 붙일지 expert FFN에도 붙일지 — 후자는 어댑터가 expert 수만큼(896개!) 늘어납니다. 라우터를 함께 학습시킬지도 별도의 결정입니다 — 라우터가 움직이면 분포 이동이 급격해집니다. K3 고유의 사정도 있습니다. 이미 MXFP4 QAT로 학습·배포되므로, 어댑터를 병합할 때 양자화 격자와의 정합을 확인해야 합니다. QLoRA처럼 "베이스를 사후 양자화"하는 전제와는 상황이 다릅니다.</p>
+  <div class="expert">
+    <div class="ex-title">전문가 관점 — 2.8T MoE 앞에서의 현실적인 우선순위</div>
+    <p>전체 튜닝은 비현실적입니다. 현실적인 순서는 (1) 프롬프트·AGENTS.md 수준의 행동 제약 — 공식 문서가 직접 권하는 방법, (2) 어텐션 쪽 중심의 소수 어댑터, (3) 증류 — K3로 고품질 데이터를 생성해 작은 모델을 학습. 셋 중 개인에게 가장 큰 실익은 대개 (3)입니다. 그리고 rank \(r\)보다 "어디에 붙일지"와 학습률이 더 큰 영향을 준다는 것이 실무의 공통 경험입니다.</p>
+  </div>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. 2.8T MoE를 개인이 파인튜닝할 수 있나? 현실적인 경로는?</strong><br>
+    전체 튜닝은 비현실적입니다. 현실적인 순서는 (1) 프롬프트·AGENTS.md 수준의 행동 제약, (2) 어텐션 쪽 중심의 소수 어댑터, (3) 증류 — K3로 고품질 데이터를 생성해 작은 모델을 학습. 셋 중 개인에게 가장 큰 실익은 대개 (3)입니다.</p>
+    <p><strong>Q2. rank \(r\)을 키우면 항상 좋아지나?</strong><br>
+    아닙니다. \(r\)이 커질수록 표현력은 늘지만 과적합과 망각도 함께 늘고, 작은 데이터셋에서는 오히려 성능이 떨어집니다. 실무에서는 \(r\)보다 어디에 붙일지와 학습률이 더 큰 영향을 줍니다. \(r\)은 8~64 범위에서 시작해 데이터 크기에 맞춰 조정하는 것이 보통입니다.</p>
+  </div>
+
+  <h3 id="s6-5">6.5 Mooncake &amp; Microscaling(MX) 포맷 — 가격표를 해석하는 마지막 조각</h3>
+  <p><a href="https://arxiv.org/abs/2407.00079" target="_blank" rel="noopener">arXiv:2407.00079</a> (+ <a href="https://arxiv.org/abs/2310.10537" target="_blank" rel="noopener">arXiv:2310.10537</a>) · 2024 · 난이도 ●●○ · 약 70분 · 정독 범위 Mooncake §3–4 · 축: 서빙</p>
+  <p>K3의 가격표와 "슈퍼노드 64대 권장"이라는 문장을 해석하기 위한 마지막 조각입니다. <strong>Mooncake</strong>는 Kimi 서비스의 실제 백엔드로, prefill과 decode를 물리적으로 분리하고 KVCache를 중심으로 스케줄링합니다. 노드들의 유휴 DRAM과 SSD를 모아 분산 캐시 풀로 쓰므로, 같은 컨텍스트를 다시 보내면 계산을 건너뜁니다. 이것이 K3의 코딩 워크로드 캐시 히트율 90%+와 캐시 히트 입력 단가 1/10의 정체입니다 — 에이전트가 같은 코드베이스를 반복해서 읽는 패턴에 정확히 맞아떨어집니다.</p>
+  <p>다만 <strong>KDA는 이 그림에 난제를 하나 던집니다.</strong> 선형 어텐션은 재사용할 KV가 없고 상태만 있습니다. 기존 prefix cache가 그대로 안 먹히므로 Moonshot이 vLLM에 KDA용 구현을 따로 기여했습니다 — 아키텍처 혁신이 서빙 스택 수정을 강제한 사례입니다. 마지막 부품인 <strong>MX(Microscaling) 포맷</strong>은 32개 원소 블록마다 공유 스케일을 두고 원소를 4비트 또는 8비트로 저장하는 방식입니다(MXFP4 가중치 + MXFP8 활성). K3는 SFT 단계부터 QAT로 학습해 사후 양자화 손실 자체를 회피합니다.</p>
+  <div class="derivation">
+    <div class="dv-title">자기 점검 — 답을 가리고 먼저 스스로 답해 보세요</div>
+    <p><strong>Q1. 왜 사후 양자화가 아니라 QAT인가?</strong><br>
+    2.8T의 초희소 MoE에서 4비트 사후 양자화는 expert별 이상치에 매우 취약합니다. 어떤 expert는 드물게 활성화되어 보정 데이터가 부족하고, 그러면 그 expert만 조용히 망가집니다. 학습 중에 양자화를 켜 두면 모델이 오차를 미리 흡수하고, 무엇보다 학습 정밀도와 배포 정밀도가 일치합니다.</p>
+    <p><strong>Q2. "슈퍼노드 64+ 권장"이 실질적으로 뜻하는 것은?</strong><br>
+    16/896 희소성 때문에 expert들을 여러 장치에 흩어 놓아야 하고, 토큰마다 all-to-all 통신이 발생합니다. 이 통신이 고대역폭 도메인 안에서 끝나야 처리량이 나옵니다. 즉 가중치가 공개돼도 풀스케일 자체 호스팅은 사실상 데이터센터 규모의 이야기라는 뜻입니다.</p>
+    <p><strong>Q3. 프리픽스 캐시 관점에서 KDA는 왜 특별한 문제인가?</strong><br>
+    full attention은 앞부분의 KV를 그대로 잘라 붙여 재사용할 수 있습니다. 반면 KDA는 토큰들을 하나의 상태 행렬로 누적 압축해 버려서, "앞 1만 토큰까지의 상태"를 저장했다 이어 쓰는 별도 설계가 필요합니다. 되레 저장할 것은 작지만(상태 하나) 재사용 규칙이 다릅니다 — 효율적인 아키텍처가 곧 효율적인 서빙은 아니라는 좋은 사례입니다.</p>
+  </div>
+</section>
+
+<section id="s7">
+  <h2><span class="sec">§7</span>용어 사전</h2>
+  <p>논문을 읽다 막히는 지점만 모았습니다. 로드맵을 순서대로 따라가면 대부분 맥락 속에서 만나게 되지만, 되짚을 때 쓰세요.</p>
+  <table>
+    <thead><tr><th>용어</th><th>뜻</th></tr></thead>
+    <tbody>
+      <tr><td><code>DPLR</code></td><td>Diagonal-Plus-Low-Rank. 대각 행렬 + 저랭크 항으로 된 전이 행렬. KDA는 저랭크 항이 delta rule의 \(kk^{\top}\) 하나뿐인 특수형을 써서 커널을 크게 절약합니다.</td></tr>
+      <tr><td><code>chunkwise</code></td><td>시퀀스를 청크로 나눠, 청크 안은 어텐션처럼 병렬로 계산하고 청크 사이만 상태를 전달하는 방식. 선형 어텐션이 GPU에서 실용화된 결정적 기법.</td></tr>
+      <tr><td><code>NoPE</code></td><td>No Position Encoding. 위치 인코딩을 아예 넣지 않는 것. Kimi Linear는 전역 MLA 레이어에 이를 적용하고 위치 정보를 KDA의 감쇠 게이트에 위임합니다.</td></tr>
+      <tr><td><code>MQA</code></td><td>Multi-Query Attention. 여러 쿼리 헤드가 K·V를 공유해 캐시를 줄이는 방식. NoPE를 쓰면 MLA를 추론 시 이 형태로 변환하기 쉬워집니다.</td></tr>
+      <tr><td>연상 회상 / <code>MQAR</code></td><td>"키를 주면 그때 짝지어졌던 값을 되찾기". 고정 상태 메모리의 용량을 재는 표준 합성 과제로, 선형 어텐션 논문의 첫 실험은 대개 여기서 시작합니다.</td></tr>
+      <tr><td>feature dilution</td><td>깊이가 커질수록 균일 누적 residual에서 개별 레이어의 기여 비중이 희석되는 현상. AttnRes가 겨냥하는 두 병리 중 하나.</td></tr>
+      <tr><td>pseudo-query</td><td>AttnRes에서 각 레이어가 가지는 \(d\)차원 벡터 하나. 이전 레이어 출력들에 대한 어텐션 가중치를 만들며, 0으로 초기화됩니다.</td></tr>
+      <tr><td>capacity factor</td><td>MoE에서 expert 하나가 받을 수 있는 토큰 수 상한. 초과분은 버려집니다(토큰 드롭). 품질·처리량·텐서 모양을 동시에 좌우하는 실무 노브.</td></tr>
+      <tr><td><code>EP</code> / all-to-all</td><td>Expert Parallel. expert들을 여러 장치에 나눠 두는 병렬화이며, 토큰을 담당 장치로 보내고 받아오는 all-to-all 통신이 필수로 따라옵니다.</td></tr>
+      <tr><td><code>QAT</code></td><td>Quantization-Aware Training. 학습 중에 양자화를 시뮬레이션해 오차를 미리 흡수시키는 방식. K3는 SFT 단계부터 이를 적용합니다.</td></tr>
+      <tr><td><code>MXFP4</code> / <code>MXFP8</code></td><td>32개 원소 블록마다 공유 스케일을 두는 Microscaling 포맷의 4비트·8비트 변형. K3는 가중치에 MXFP4, 활성에 MXFP8을 씁니다.</td></tr>
+      <tr><td>prefix cache</td><td>같은 앞부분 컨텍스트의 계산 결과를 저장해 재사용하는 기법. 에이전트처럼 같은 코드베이스를 반복해 읽는 워크로드에서 비용을 극적으로 낮춥니다.</td></tr>
+      <tr><td>rollout</td><td>RL에서 정책이 생성한 하나의 완결된 궤적(응답). 추론 RL의 비용은 대부분 여기서 나오며, 그래서 디코딩 효율이 곧 RL 예산입니다.</td></tr>
+      <tr><td><code>RLVR</code></td><td>Reinforcement Learning with Verifiable Rewards. 보상 모델 없이 자동 채점기(테스트 실행, 정답 대조)만으로 보상을 주는 방식.</td></tr>
+      <tr><td>thinking history</td><td>이전 턴의 사고 내용. K3는 이것이 보존된 상태로 학습되어, 하네스가 되돌려주지 않으면 출력 품질이 불안정해집니다.</td></tr>
+      <tr><td>하네스(harness)</td><td>모델에 도구·컨텍스트·루프를 제공하는 실행 껍데기(KimiCode, Claude Code, Codex 등). 같은 모델도 하네스가 다르면 벤치마크 점수가 달라집니다.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="s8">
+  <h2><span class="sec">§8</span>4주 진행 계획</h2>
+  <p>주당 4~5편 기준입니다. 시간이 부족하면 3주차의 ★ 두 편에 예산을 몰아주고 나머지를 줄이세요 — 이 로드맵에서 대체 불가능한 부분은 그 둘입니다. 각 주차의 오른쪽 열은 그 주가 끝났을 때 스스로 답할 수 있어야 하는 질문입니다.</p>
+  <table>
+    <thead><tr><th>주차</th><th>범위</th><th>이번 주의 질문</th></tr></thead>
+    <tbody>
+      <tr><td>WEEK 1</td><td><strong>§1 · 4편</strong><br>Transformer · Switch · DeepSeekMoE · DeepSeek-V2/V3</td><td>2.8T라는 숫자는 무엇을 뜻하고, 무엇을 뜻하지 않는가?</td></tr>
+      <tr><td>WEEK 2</td><td><strong>§2 · 4편</strong><br>Linear Attention · DeltaNet · GLA/Mamba-2 · Gated DeltaNet</td><td>네 논문의 차이를 전이 행렬 \(A_t\) 하나로 설명할 수 있는가?</td></tr>
+      <tr><td>WEEK 3</td><td><strong>§3 · 5편 (★ 2편 정독)</strong><br>Muon · K1.5 · K2 · Kimi Linear ★ · AttnRes ★</td><td>KDA와 AttnRes는 각각 어떤 축의 어떤 병목을 푸는가?</td></tr>
+      <tr><td>WEEK 4</td><td><strong>§4–§6 · 6편</strong><br>K3 블로그 · 정렬 3편 · 튜닝/서빙 2편</td><td>7/27에 가중치를 받으면 나는 무엇을 시도할 것인가?</td></tr>
+    </tbody>
+  </table>
+  <div class="note">
+    <p><b>진행 방식 요약.</b> 각 절의 본문을 먼저 읽고 원문으로 넘어가되, 원문을 덮은 뒤에는 자기 점검 질문에 스스로 답한 다음 대조하세요. ★ 표시는 수식과 실험 설계까지 정독할 두 편(Kimi Linear, AttnRes)과 최종 목적지(K3 블로그)입니다. 본문 곳곳의 <em>리포트 확인 항목</em>은 K3 테크니컬 리포트(2026-07-27 공개 예정) 이후 검증이 필요한 문장입니다. 논문 제목 옆의 링크를 누르면 arXiv 원문으로 이동합니다.</p>
+  </div>
+</section>
+
+<section id="s9">
+  <h2><span class="sec">§9</span>References</h2>
+  <ol class="refs">
+    <li>Vaswani et al. (2017). <i>Attention Is All You Need.</i> NeurIPS. <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arXiv:1706.03762</a>.</li>
+    <li>Fedus, Zoph &amp; Shazeer (2021). <i>Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity.</i> <a href="https://arxiv.org/abs/2101.03961" target="_blank" rel="noopener">arXiv:2101.03961</a>.</li>
+    <li>Dai et al. (2024). <i>DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models.</i> <a href="https://arxiv.org/abs/2401.06066" target="_blank" rel="noopener">arXiv:2401.06066</a>.</li>
+    <li>DeepSeek-AI (2024). <i>DeepSeek-V2.</i> <a href="https://arxiv.org/abs/2405.04434" target="_blank" rel="noopener">arXiv:2405.04434</a>; <i>DeepSeek-V3.</i> <a href="https://arxiv.org/abs/2412.19437" target="_blank" rel="noopener">arXiv:2412.19437</a>.</li>
+    <li>Katharopoulos et al. (2020). <i>Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention.</i> ICML. <a href="https://arxiv.org/abs/2006.16236" target="_blank" rel="noopener">arXiv:2006.16236</a>.</li>
+    <li>Schlag, Irie &amp; Schmidhuber (2021). <i>Linear Transformers Are Secretly Fast Weight Programmers.</i> ICML. <a href="https://arxiv.org/abs/2102.11174" target="_blank" rel="noopener">arXiv:2102.11174</a>; Yang et al. (2024). <i>Parallelizing Linear Transformers with the Delta Rule over Sequence Length.</i> <a href="https://arxiv.org/abs/2406.06484" target="_blank" rel="noopener">arXiv:2406.06484</a>.</li>
+    <li>Yang et al. (2023). <i>Gated Linear Attention Transformers with Hardware-Efficient Training.</i> <a href="https://arxiv.org/abs/2312.06635" target="_blank" rel="noopener">arXiv:2312.06635</a>; Dao &amp; Gu (2024). <i>Transformers are SSMs (Mamba-2).</i> <a href="https://arxiv.org/abs/2405.21060" target="_blank" rel="noopener">arXiv:2405.21060</a>.</li>
+    <li>Yang et al. (2024). <i>Gated Delta Networks: Improving Mamba2 with Delta Rule.</i> <a href="https://arxiv.org/abs/2412.06464" target="_blank" rel="noopener">arXiv:2412.06464</a>.</li>
+    <li>Liu et al. (2025). <i>Muon is Scalable for LLM Training (Moonlight).</i> <a href="https://arxiv.org/abs/2502.16982" target="_blank" rel="noopener">arXiv:2502.16982</a>.</li>
+    <li>Kimi Team (2025). <i>Kimi K1.5: Scaling Reinforcement Learning with LLMs.</i> <a href="https://arxiv.org/abs/2501.12599" target="_blank" rel="noopener">arXiv:2501.12599</a>.</li>
+    <li>Kimi Team (2025). <i>Kimi K2.</i> <a href="https://arxiv.org/abs/2507.20534" target="_blank" rel="noopener">arXiv:2507.20534</a>.</li>
+    <li>Kimi Team (2025). <i>Kimi Linear (KDA).</i> <a href="https://arxiv.org/abs/2510.26692" target="_blank" rel="noopener">arXiv:2510.26692</a>.</li>
+    <li>(2026). <i>Attention Residuals (AttnRes).</i> <a href="https://arxiv.org/abs/2603.15031" target="_blank" rel="noopener">arXiv:2603.15031</a>.</li>
+    <li>Moonshot AI (2026). <i>Kimi K3 Tech Blog.</i> <a href="https://www.kimi.com/blog/kimi-k3" target="_blank" rel="noopener">kimi.com/blog/kimi-k3</a>. 가중치·테크니컬 리포트 2026-07-27 공개 예정.</li>
+    <li>Ouyang et al. (2022). <i>Training Language Models to Follow Instructions with Human Feedback (InstructGPT).</i> <a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">arXiv:2203.02155</a>; Bai et al. (2022). <i>Constitutional AI.</i> <a href="https://arxiv.org/abs/2212.08073" target="_blank" rel="noopener">arXiv:2212.08073</a>.</li>
+    <li>Rafailov et al. (2023). <i>Direct Preference Optimization.</i> NeurIPS. <a href="https://arxiv.org/abs/2305.18290" target="_blank" rel="noopener">arXiv:2305.18290</a>.</li>
+    <li>DeepSeek-AI (2025). <i>DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning.</i> <a href="https://arxiv.org/abs/2501.12948" target="_blank" rel="noopener">arXiv:2501.12948</a>.</li>
+    <li>Hu et al. (2021). <i>LoRA: Low-Rank Adaptation of Large Language Models.</i> <a href="https://arxiv.org/abs/2106.09685" target="_blank" rel="noopener">arXiv:2106.09685</a>; Dettmers et al. (2023). <i>QLoRA.</i> <a href="https://arxiv.org/abs/2305.14314" target="_blank" rel="noopener">arXiv:2305.14314</a>.</li>
+    <li>Qin et al. (2024). <i>Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving.</i> <a href="https://arxiv.org/abs/2407.00079" target="_blank" rel="noopener">arXiv:2407.00079</a>; Rouhani et al. (2023). <i>Microscaling Data Formats for Deep Learning.</i> <a href="https://arxiv.org/abs/2310.10537" target="_blank" rel="noopener">arXiv:2310.10537</a>.</li>
+  </ol>
+</section>
+
+</article>
+
+<script>
+(function(){
+  var links=Array.prototype.slice.call(document.querySelectorAll('.toc-side a'));
+  var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+  var targets=Array.prototype.slice.call(document.querySelectorAll('section[id], h3[id]'));
+  var current=null;
+  function setActive(id){
+    if(current===id)return;current=id;
+    links.forEach(function(a){a.classList.remove('active');});
+    var a=map[id];if(!a)return;a.classList.add('active');
+    var sec=a.closest('.toc-side > ul > li');if(sec){var l1=sec.querySelector('a.toc-l1');if(l1)l1.classList.add('active');}
+    var nav=document.querySelector('.toc-side');
+    var r=a.getBoundingClientRect(),nr=nav.getBoundingClientRect();
+    if(r.top<nr.top+40||r.bottom>nr.bottom-40){nav.scrollTop+=r.top-nr.top-nr.height/2;}
+  }
+  if('IntersectionObserver' in window){
+    var visible={};
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){visible[e.target.id]=e.isIntersecting?e.boundingClientRect.top:null;});
+      var best=null,bestTop=Infinity;
+      targets.forEach(function(t){var v=visible[t.id];if(v!==null&&v!==undefined&&Math.abs(v)<bestTop){bestTop=Math.abs(v);best=t.id;}});
+      if(best)setActive(best);
+    },{rootMargin:'-10% 0px -70% 0px',threshold:[0,1]});
+    targets.forEach(function(t){io.observe(t);});
+  }
+  document.querySelectorAll('.toc-side a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('toc-open');});});
+})();
+</script>
+</body>
+</html>
